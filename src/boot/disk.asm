@@ -15,9 +15,35 @@ disk_read:
     mov dh, 0         ;cylinder num %
     int 0x13
 
-    mov sp, bp
-    pop bp
-    pop dx
-    pop cx
-    pop bx
-    ret
+    jc disk_error
+
+    cmp al, byte [bp + 12]
+    jne read_error
+
+    jmp read_end
+
+    ;unable to read from disk
+    disk_error:
+        push disk_error_msg
+        call print
+        add sp, 2
+        jmp read_end
+
+    ;not read all sectors
+    read_error:
+        push read_error_msg
+        call print
+        add sp, 2
+        jmp read_end
+
+
+    read_end:
+        mov sp, bp
+        pop bp
+        pop dx
+        pop cx
+        pop bx
+        ret
+
+disk_error_msg: db "ERROR: Disk read faild", 0
+read_error_msg: db "ERROR: Cannot finish disk read", 0
