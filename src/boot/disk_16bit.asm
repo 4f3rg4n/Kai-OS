@@ -1,3 +1,4 @@
+[bits 16]
 ;This function get dest address to store data from the disk, start sector & num of sectors to read,
 ;and it store the data from that sectors in the dest address.
 disk_read:

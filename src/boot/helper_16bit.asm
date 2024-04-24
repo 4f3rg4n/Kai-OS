@@ -1,3 +1,4 @@
+[bits 16]
 ;This function get string pointer and print it
 print:
     push si

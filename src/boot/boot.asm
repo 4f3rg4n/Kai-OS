@@ -1,5 +1,5 @@
-[BITS 16]
-[ORG 0x7c00]
+[bits 16]
+[org 0x7c00]
 mov bp, 0xC0C0
 mov sp, bp
 
@@ -8,12 +8,17 @@ push open_message
 call print
 add sp, 2
 
+;enter into protected mode
+call enter_protected_node
+
 jmp $
 
-open_message: db 'Penguin-OS', 0
+%include "protected_mode.asm"
+%include "gdt.asm"
+%include "disk_16bit.asm"
+%include "helper_16bit.asm"
 
-%include "disk.asm"
-%include "helper.asm"
+open_message: db 'Penguin-OS', 0
 
 TIMES 510-($-$$) db 0
 dw 0xaa55

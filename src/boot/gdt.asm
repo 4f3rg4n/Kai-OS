@@ -52,3 +52,6 @@ GDT_end:
 GDT_descriptor:
     dw GDT_start - GDT_end - 1 ;GDT size
     dd GDT_start               ;GDT address
+
+CODE_SEGMENT equ code_descriptor - GDT_start
+DATA_SEGMENT equ data_descriptor - GDT_start
