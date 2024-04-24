@@ -5,8 +5,13 @@ mov sp, bp
 
 ;print open screen message
 push open_message
-call print
+call print_16bit
 add sp, 2
+call new_line_16bit
+push RM_MSG
+call print_16bit
+add sp, 2
+call new_line_16bit
 
 ;enter into protected mode
 call enter_protected_node
@@ -17,8 +22,9 @@ jmp $
 %include "gdt.asm"
 %include "disk_16bit.asm"
 %include "helper_16bit.asm"
-
+%include "helper_32bit.asm"
 open_message: db 'Penguin-OS', 0
+RM_MSG: db 'Hello from Real Mode!', 0
 
 TIMES 510-($-$$) db 0
 dw 0xaa55

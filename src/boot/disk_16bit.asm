@@ -26,14 +26,14 @@ disk_read:
     ;unable to read from disk
     disk_error:
         push disk_error_msg
-        call print
+        call print_16bit
         add sp, 2
         jmp read_end
 
     ;not read all sectors
     read_error:
         push read_error_msg
-        call print
+        call print_16bit
         add sp, 2
         jmp read_end
 

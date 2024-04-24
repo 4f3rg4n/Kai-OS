@@ -10,6 +10,7 @@ enter_protected_node:
     mov cr0, eax
 
     call CODE_SEGMENT:init_protected_mode
+    ret
 
 [bits 32]
 init_protected_mode:
@@ -24,6 +25,13 @@ init_protected_mode:
     mov esp, ebp
 
     call start_protected_mode
+    ret
 
 start_protected_mode:
+    mov ebx, PM_MSG
+    call print_32bit
+
     jmp $
+    ret
+
+PM_MSG: db "Hello from Protected Mode !", 0
