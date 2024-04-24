@@ -30,6 +30,7 @@ init_protected_mode:
 start_protected_mode:
     mov ebx, PM_MSG
     call print_32bit
+    call 0x1000
 
     jmp $
     ret
