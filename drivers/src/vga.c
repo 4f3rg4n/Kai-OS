@@ -1,6 +1,6 @@
 #include "../include/vga.h"
 
-char (*screen)[HEIGHT] = (char(*)[HEIGHT])VGA_ADDR;
+char (*screen)[WIDTH] = (char(*)[WIDTH])VGA_ADDR;
 short row = 0;
 short col = 0;
 char color = 0x0F;
@@ -17,6 +17,11 @@ void vga_putch(char ch){
 void vga_next_line(){
     col = 0;
     row++;
+
+    if(row == HEIGHT){
+        vga_clean_screen();
+        row = 0;
+    }
 }
 
 void vga_set(short row, short col, char ch){
@@ -27,7 +32,7 @@ char vga_get(short row, short col){
     return screen[row][col];
 }
 
-void vga_cls(){
+void vga_clean_screen(){
     for(int i = 0; i < HEIGHT; i++){
         for(int j = 0; j < WIDTH; j++)
             screen[i][j] = '\0';        

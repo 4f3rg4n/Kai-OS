@@ -16,5 +16,5 @@ void print(char* msg){
 }
 
 void cls(){
-    vga_cls();
+    vga_clean_screen();
 }
