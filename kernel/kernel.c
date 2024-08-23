@@ -1,4 +1,4 @@
-#include "./libs/include/stdlib.h"
+#include "../libs/include/stdlib.h"
 
 void kernel_main() {
     cls();
