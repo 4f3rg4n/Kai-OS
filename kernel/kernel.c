@@ -2,5 +2,5 @@
 
 void kernel_main() {
     cls();
-    print("Welcome to Penguin-OS!\0");
+    print("Welcome to Kai-OS!\0");
 }
