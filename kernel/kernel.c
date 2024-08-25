@@ -1,10 +1,12 @@
 #include "../libs/include/stdlib.h"
 
 void kernel_main() {
+    char str[10];
     cls();
+    keyboard();
     print("Welcome to Kai-OS!\n\0");
-    print("letter: ");
-    char letter = get_char();
-    print("\nyour letter is: ");
-    putch(letter);
+    print("string: ");
+    gets(str);
+    print("\nyour string is: ");
+    print(str);
 }

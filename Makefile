@@ -6,7 +6,7 @@ QEMU = qemu-system-x86_64
 
 # Compiler and linker flags
 ASM_FLAGS = -f elf32
-CFLAGS = -m32 -c
+CFLAGS = -m32 -c -fno-stack-protector
 LDFLAGS = -m elf_i386 -T link.ld
 
 # Source files
