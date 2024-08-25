@@ -40,3 +40,15 @@ void gets(char* str){
         str[i] = c;
     }
 }
+
+int atoi(char* str) {
+    int res = 0;
+    for(int i = 0; 1==1; i++){
+        if(str[i] == '\0')
+            break;
+        res *= 10;
+        res += str[i] - 0x30;        
+    }
+
+    return res;
+}

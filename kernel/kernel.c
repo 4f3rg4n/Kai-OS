@@ -7,6 +7,6 @@ void kernel_main() {
     print("Welcome to Kai-OS!\n\0");
     print("string: ");
     gets(str);
-    print("\nyour string is: ");
-    print(str);
+    print("\nyour char is: ");
+    putch(atoi(str));
 }

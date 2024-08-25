@@ -7,3 +7,4 @@ void print(char* msg);
 void cls();
 char getch();
 void gets(char* str);
+int atoi(char* str);
