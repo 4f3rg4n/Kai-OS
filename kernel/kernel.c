@@ -1,12 +1,8 @@
 #include "../libs/include/stdlib.h"
+#include "../libs/include/mem.h"
 
 void kernel_main() {
-    char str[10];
     cls();
     keyboard();
     print("Welcome to Kai-OS!\n\0");
-    print("string: ");
-    gets(str);
-    print("\nyour char is: ");
-    putch(atoi(str));
 }

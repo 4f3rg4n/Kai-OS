@@ -37,4 +37,6 @@ void vga_clean_screen(){
         for(int j = 0; j < WIDTH; j++)
             screen[i][j] = '\0';        
     }
+    col = 0;
+    row = 0;
 }
