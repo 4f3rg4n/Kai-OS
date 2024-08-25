@@ -10,3 +10,16 @@ void memcpy(void* src, void* dst, int bytes) {
     for(int i = 0; i < bytes; i++)
         dst_ptr[i] = src_ptr[i];
 }
+
+int memcmp(const void* mem1, const void* mem2, int bytes){
+    const unsigned char* p_mem1 = mem1;
+    const unsigned char* p_mem2 = mem2;
+    for(int i = 0; i < bytes; i++){
+        if (p_mem1[i] < p_mem2[i])
+            return -1;
+        else if(p_mem1[i] > p_mem2[i])
+            return 1;
+    }
+
+    return 0;
+}
