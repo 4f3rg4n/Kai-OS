@@ -18,3 +18,7 @@ void print(char* msg){
 void cls(){
     vga_clean_screen();
 }
+
+char getch(){
+    return get_byte();
+}
