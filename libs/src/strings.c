@@ -10,11 +10,14 @@ int strcmp (const char* str1, const char* str2){
             return 1;
     }
 }
-/*
-int strlen(const char* str){
 
+int strsize(const char* str1){
+    int i = 0;
+    for(i = 0; str1[i] != '\0'; i++){}
+    return i;
 }
 
+/*
 char* strcpy(char* dst, const char* src){
 
 }
