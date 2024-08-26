@@ -27,11 +27,18 @@ char* strcpy(char* dst, const char* src) {
 
     return dst;
 }
-/*
-char *strcat(char *dst, const char *src){
 
+char* strcat(char* dst, const char* src) {
+    int i = 0, j = 0;
+    while(dst[i] != '\0'){ i++; }
+    do{ 
+        dst[i] = src[j]; 
+        j++;
+        i++;
+    } while(src[j] != '\0');
+
+    return dst;
 }
-*/
 
 void puts(const char* str){
     for (int i = 0; str[i] != '\0'; i++){
