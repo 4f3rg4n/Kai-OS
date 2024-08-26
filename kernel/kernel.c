@@ -5,8 +5,9 @@
 void kernel_main() {
     cls();
     keyboard();
-    char str1[10] = "noam\0";
-    char str2[10] = "no\0";
-    putch(strsize(str1) + 97);
+    char str1[10];
+    char str2[10] = "abc\0";
+    puts(strcpy(str1, str2));
+    puts(str1);
     puts("Welcome to Kai-OS!\n\0");
 }

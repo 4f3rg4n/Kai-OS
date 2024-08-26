@@ -17,11 +17,17 @@ int strsize(const char* str1){
     return i;
 }
 
-/*
-char* strcpy(char* dst, const char* src){
 
+char* strcpy(char* dst, const char* src) {
+    int i = 0;
+    do {
+        dst[i] = src[i];
+        i++;
+    } while(src[i] != '\0');
+
+    return dst;
 }
-
+/*
 char *strcat(char *dst, const char *src){
 
 }
