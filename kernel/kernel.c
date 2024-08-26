@@ -6,7 +6,7 @@ void kernel_main() {
     cls();
     keyboard();
     char str1[10] = "noam\0";
-    char str2[10] = "naam\0";
-    putch(memcmp(str1, str2, 2) + 98);
+    char str2[10] = "no\0";
+    putch(strcmp(str1, str2) + 98);
     puts("Welcome to Kai-OS!\n\0");
 }
