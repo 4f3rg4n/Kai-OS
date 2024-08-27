@@ -9,11 +9,11 @@ SECTION .text
     dd      - (0x1BADB002+0x00) ; Checksum value should be 0 when magic number is added to the flags
 
 GLOBAL start
-EXTERN kernel_main      ; We are declaring kernel_main as an external function
+EXTERN kmain      ; We are declaring kernel_main as an external function
 
 start:
     cli                 ; Clear interrupts
-    call kernel_main    ; We are calling kernel_main() from the kernel.c file
+    call kmain    ; We are calling kernel_main() from the kernel.c file
     jmp end             ; We jump to the end after the function has been called
 
 end:

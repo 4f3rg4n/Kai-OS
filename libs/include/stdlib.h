@@ -1,3 +1,6 @@
+#ifndef STDLIB_H
+#define STDLIB_H
+
 #include "../../drivers/include/vga.h"
 #include "../../drivers/include/keyboard.h"
 
@@ -7,3 +10,5 @@ void cls();
 char getch();
 void gets(char* str);
 int atoi(char* str);
+
+#endif
