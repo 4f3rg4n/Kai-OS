@@ -6,6 +6,7 @@
 
 void keyboard();
 void putch(char ch);
+void putch_c(char ch, char color);
 void cls();
 char getch();
 void gets(char* str);

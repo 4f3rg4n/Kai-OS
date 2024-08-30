@@ -60,6 +60,8 @@
     "keyboard.h": "c",
     "string.h": "c",
     "stdlib.h": "c",
-    "idt.h": "c"
+    "idt.h": "c",
+    "isr.h": "c",
+    "types.h": "c"
   }
 }

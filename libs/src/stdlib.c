@@ -5,7 +5,11 @@ void keyboard() {
 }
 
 void putch(char ch){
-    vga_putch(ch);
+    vga_putch(ch, 0);
+}
+
+void putch_c(char ch, char color){
+    vga_putch(ch, color);
 }
 
 void cls(){

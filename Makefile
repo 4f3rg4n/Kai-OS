@@ -13,6 +13,12 @@ LDFLAGS = -m elf_i386 -T link.ld
 BOOT_SRC = ./boot/boot.asm
 KERNEL_SRC = ./kernel/kernel.c
 
+# CPU
+ISR_SRC = ./kernel/cpu/src/isr.c
+IDT_SRC = ./kernel/cpu/src/idt.c
+ISR_ASM_SRC = ./kernel/cpu/src/asm/interrupts.asm
+ISR_STUB_ASM_SRC = ./kernel/cpu/src/asm/stub.asm
+
 # Directories
 LIB_DIR = ./libs/src
 DRIVER_DIR = ./drivers/src
@@ -28,6 +34,10 @@ DRIVER_OBJS = $(DRIVER_SRCS:.c=.o)
 # Object files
 BOOT_OBJ = ./boot/boot.o
 KERNEL_OBJ = ./kernel/kernel.o
+ISR_OBJ = ./kernel/cpu/src/isr.o
+IDT_OBJ = ./kernel/cpu/src/idt.o
+ISR_ASM_OBJ = ./kernel/cpu/src/asm/interrupts.o
+ISR_STUB_ASM_OBJ = ./kernel/cpu/src/asm/stub.o
 
 # Output binary
 KERNEL_BIN = ./bin/kernel.bin
@@ -39,23 +49,35 @@ $(BOOT_OBJ): $(BOOT_SRC)
 	$(ASM) $(ASM_FLAGS) $(BOOT_SRC) -o $(BOOT_OBJ)
 
 $(KERNEL_OBJ): $(KERNEL_SRC)
-	$(CC) $(CFLAGS) $(KERNEL_SRC) -o $(KERNEL_OBJ)
+	$(CC) $(CFLAGS) $(KERNEL_SRC) -o $(KERNEL_OBJ) -c
+
+$(ISR_OBJ): $(ISR_SRC)
+	$(CC) $(CFLAGS) $(ISR_SRC) -o $(ISR_OBJ) -c
+
+$(IDT_OBJ): $(IDT_SRC)
+	$(CC) $(CFLAGS) $(IDT_SRC) -o $(IDT_OBJ) -c
+
+$(ISR_ASM_OBJ): $(ISR_ASM_SRC)
+	$(ASM) $(ASM_FLAGS) $(ISR_ASM_SRC) -o $(ISR_ASM_OBJ)
+
+$(ISR_STUB_ASM_OBJ): $(ISR_STUB_ASM_SRC)
+	$(ASM) $(ASM_FLAGS) $(ISR_STUB_ASM_SRC) -o $(ISR_STUB_ASM_OBJ)
 
 # Compile all libraries and drivers, keeping the object files in their directories
 $(LIB_DIR)/%.o: $(LIB_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ -c
 
 $(DRIVER_DIR)/%.o: $(DRIVER_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+	$(CC) $(CFLAGS) $< -o $@ -c
 
 # Link everything together
-$(KERNEL_BIN): $(BOOT_OBJ) $(KERNEL_OBJ) $(LIB_OBJS) $(DRIVER_OBJS)
-	$(LD) $(LDFLAGS) -o $(KERNEL_BIN) $(BOOT_OBJ) $(KERNEL_OBJ) $(LIB_OBJS) $(DRIVER_OBJS)
+$(KERNEL_BIN): $(BOOT_OBJ) $(KERNEL_OBJ) $(ISR_OBJ) $(IDT_OBJ) $(ISR_ASM_OBJ) $(ISR_STUB_ASM_OBJ) $(LIB_OBJS) $(DRIVER_OBJS)
+	$(LD) $(LDFLAGS) -o $(KERNEL_BIN) $(BOOT_OBJ) $(KERNEL_OBJ) $(ISR_OBJ) $(IDT_OBJ) $(ISR_ASM_OBJ) $(ISR_STUB_ASM_OBJ) $(LIB_OBJS) $(DRIVER_OBJS)
 
 run: $(KERNEL_BIN)
 	$(QEMU) -kernel $(KERNEL_BIN)
 
 clean:
-	rm -f $(BOOT_OBJ) $(KERNEL_OBJ) $(LIB_OBJS) $(DRIVER_OBJS) $(KERNEL_BIN)
+	rm -f $(BOOT_OBJ) $(KERNEL_OBJ) $(ISR_OBJ) $(IDT_OBJ) $(ISR_ASM_OBJ) $(ISR_STUB_ASM_OBJ) $(LIB_OBJS) $(DRIVER_OBJS) $(KERNEL_BIN)
 
 .PHONY: all run clean

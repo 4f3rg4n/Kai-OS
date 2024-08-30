@@ -1,11 +1,11 @@
 #include "../include/idt.h"
 
-void set_new_idt_gate(u8bit num, u32bit base, u16bit sel, u8bit flags) {
-    idt[num].base_low = (base & 0xFFFF);        //low 16 bits
-    idt[num].base_high = (base >> 16) & 0xFFFF; //high 16 bits
-    idt[num].sel = sel;                         
-    idt[num].all_zero = 0;                      
-    idt[num].flags = flags; 
+void idt_set_new_gate(u8bit entry, u32bit base, u16bit sel, u8bit flags) {
+    idt[entry].base_low = (base & 0xFFFF);        //low 16 bits
+    idt[entry].base_high = (base >> 16) & 0xFFFF; //high 16 bits
+    idt[entry].sel = sel;                         
+    idt[entry].all_zero = 0;                      
+    idt[entry].flags = flags; 
 }
 
 void idt_init() {

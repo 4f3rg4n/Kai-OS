@@ -3,9 +3,12 @@
 char (*screen)[WIDTH] = (char(*)[WIDTH])VGA_ADDR;
 short row = 0;
 short col = 0;
-char color = 0x0F;
+char default_color = 0x0F;
 
-void vga_putch(char ch){
+void vga_putch(char ch, char color){
+    if(!color)
+        color = default_color;
+
     screen[row][col] = ch;
     screen[row][col + 1] = color;
     col += 2;
