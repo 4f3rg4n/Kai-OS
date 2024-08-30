@@ -25,11 +25,17 @@ void gets(char* str){
     for(int i = 0; 1==1; i++) {
         c = getch();
         getch();
+        
         if(c == '\n') {
             str[i] = '\0';
             break;
         }
-        putch(c);
+
+        if(c == 0)
+            vga_back();    
+        else
+            putch(c);
+            
         str[i] = c;
     }
 }

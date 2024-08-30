@@ -1,4 +1,5 @@
 #include "io.h"
+#include "vga.h"
 
 #define KEYBOARD_PORT 0x60
 

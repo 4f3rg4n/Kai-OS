@@ -7,3 +7,4 @@ void vga_next_line();
 void vga_set(short row, short col, char ch);
 char vga_get(short row, short col);
 void vga_clean_screen();
+void vga_back(bool);

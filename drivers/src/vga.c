@@ -43,3 +43,17 @@ void vga_clean_screen(){
     col = 0;
     row = 0;
 }
+
+void vga_back() {
+    if(col != 0) {
+        col -= 2;
+    }
+    else {
+        if(row != 0){
+            row--;
+            col = WIDTH - 2;
+        }
+    }
+
+    vga_set(row, col, ' ');
+}

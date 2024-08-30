@@ -49,6 +49,7 @@ void init_keyboard() {
     symbols[0x34] = '.'; 
     symbols[0x35] = '/';
     symbols[0x39] = ' ';
+    symbols[0x0d] = 0;
 }
 
 char get_byte(){

@@ -62,6 +62,7 @@
     "stdlib.h": "c",
     "idt.h": "c",
     "isr.h": "c",
-    "types.h": "c"
+    "types.h": "c",
+    "vga.h": "c"
   }
 }
