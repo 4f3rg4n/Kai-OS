@@ -31,5 +31,14 @@ extern void isr19();
 extern void isr20();
 extern void isr21();  
 extern void isr22();
+extern void isr23();
+extern void isr24();  
+extern void isr25();
+extern void isr26();  
+extern void isr27();
+extern void isr28();  
+extern void isr29();
+extern void isr30();  
+extern void isr31();
 
 #endif

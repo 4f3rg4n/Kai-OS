@@ -12,6 +12,6 @@ void kmain() {
     idt_init();
     puts_c("init isr\n", 0x0A);
     isr_init();
-    asm volatile ("int $21");  // Trigger interrupt 1 manually
+    asm volatile ("int $32");  // Trigger interrupt 1 manually
     puts("Welcome to Kai-OS!\n\0");
 }

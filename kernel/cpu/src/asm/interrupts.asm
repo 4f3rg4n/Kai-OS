@@ -23,6 +23,15 @@ global isr19
 global isr20
 global isr21
 global isr22
+global isr23
+global isr24
+global isr25
+global isr26
+global isr27
+global isr28
+global isr29
+global isr30
+global isr31
 
 extern isr_stub
 
@@ -115,6 +124,42 @@ isr21:
 
 isr22:
     push dword 22
+    jmp run
+    
+isr23:
+    push dword 23
+    jmp run
+
+isr24:
+    push dword 24
+    jmp run
+
+isr25:
+    push dword 25
+    jmp run
+    
+isr26:
+    push dword 26
+    jmp run
+
+isr27:
+    push dword 27
+    jmp run
+
+isr28:
+    push dword 28
+    jmp run
+    
+isr29:
+    push dword 29
+    jmp run
+
+isr30:
+    push dword 30
+    jmp run
+
+isr31:
+    push dword 31
     jmp run
 
 run:
