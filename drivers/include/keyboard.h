@@ -4,13 +4,14 @@
 #include "io.h"
 #include "vga.h"
 #include "../../libc/include/strings.h"
+#include "../../debug/debug.h"
 
 #define KEYBOARD_PORT 0x60
 
 //keyboard symbols list
 extern unsigned char symbols[256];
 
-void init_keyboard();
+void keyboard_init();
 char get_byte();
 int get_char();
 

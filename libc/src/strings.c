@@ -40,18 +40,21 @@ char* strcat(char* dst, const char* src) {
     return dst;
 }
 
-void puts_c(const char* str, char color) {
-    for (int i = 0; str[i] != '\0'; i++){
+int puts_c(const char* str, char color) {
+    int i = 0;
+    for (i = 0; str[i] != '\0'; i++){
         if(str[i] == '\n'){
             vga_next_line();
             continue;
         }
         putch_c(str[i], color);
     }
+
+    return i;
 }
 
-void puts(const char* str){
-    puts_c(str, 0);
+int puts(const char* str){
+    return puts_c(str, 0);
 }
 
 

@@ -3,12 +3,18 @@
 #include "../libc/include/strings.h"
 #include "../cpu/include/idt.h"
 #include "../cpu/include/isr.h"
+#include "../drivers/include/keyboard.h"
 
 void kmain() {
-    char name[10];
-    cls();
+    char name[10] = {0};
 
-    keyboard();
+    cls(); //clean screen
+
+
+    /*---------------*\
+    | init os drivers | 
+    \*---------------*/
+    keyboard_init();
     idt_init();
     isr_init();
 

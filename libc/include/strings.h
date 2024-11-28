@@ -7,7 +7,7 @@ int strcmp (const char* str1, const char* str2);
 int strsize(const char* str1);
 char* strcpy(char* dst, const char* src);
 char *strcat(char *dst, const char *src);
-void puts_c(const char* str, char color);
-void puts(const char* str);
+int puts_c(const char* str, char color);
+int puts(const char* str);
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "../../libc/include/types.h"
 #include "../../libc/include/strings.h"
+#include "../../debug/debug.h"
 
 #define IDT_ENTRYS 256
 

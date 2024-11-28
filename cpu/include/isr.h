@@ -5,6 +5,7 @@
 #include "../../libc/include/types.h"
 #include "../../libc/include/stdlib.h"
 #include "../../libc/include/strings.h"
+#include "../../debug/debug.h"
 
 void isr_init();
 void isr_handler(u16bit entry);

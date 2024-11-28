@@ -1,7 +1,7 @@
 #include "../include/stdlib.h"
 
 void keyboard() {
-    init_keyboard();
+    keyboard_init();
 }
 
 void putch(char ch){
@@ -43,6 +43,38 @@ void gets(char* str){
             str[i] = c;
         }
     }
+}
+
+void geti(int* var) {
+    char buf[10] = {0};
+    gets(buf);
+    (*var) = atoi(buf);
+}
+
+int printf(char* format, void* data) {
+    int size = 0;
+
+    if(!strcmp(format, "%s"))
+        size = puts(data);
+    else if(!strcmp(format, "%d"))
+        size = puti(data);
+    
+    return size;
+}
+
+int puti(int var) {
+    char num[20] = {0};
+    int i = 0, size;
+
+    for(; var != 0; i++, var /= 10)
+        num[i] = (char)((var % 10) + 48);
+
+    size = i;
+
+    for(; i >= 0; i--)
+        putch(num[i]);
+
+    return size;
 }
 
 int atoi(char* str) {

@@ -10,6 +10,8 @@ void putch_c(char ch, char color);
 void cls();
 char getch();
 void gets(char* str);
+void geti(int* var);
+int puti(int var);
 int atoi(char* str);
 
 #endif

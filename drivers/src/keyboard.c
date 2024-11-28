@@ -3,7 +3,7 @@
 //keyboard symbols list
 unsigned char symbols[256];
 
-void init_keyboard() {
+void keyboard_init() {
     symbols[0x2] = '1'; 
     symbols[0x3] = '2'; 
     symbols[0x4] = '3';
