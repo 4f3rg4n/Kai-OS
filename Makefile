@@ -1,83 +1,51 @@
-# Compiler and assembler options
-ASM = nasm
-CC = gcc
-LD = ld
-QEMU = qemu-system-x86_64
-
-# Compiler and linker flags
-ASM_FLAGS = -f elf32
-CFLAGS = -m32 -c -fno-stack-protector -ffreestanding -nostdlib -nodefaultlibs -Wno-implicit-function-declaration
-LDFLAGS = -m elf_i386 -T link.ld
-
-# Source files
-BOOT_SRC = ./boot/boot.asm
-KERNEL_SRC = ./kernel/kernel.c
-
-# CPU
-ISR_SRC = ./kernel/cpu/src/isr.c
-IDT_SRC = ./kernel/cpu/src/idt.c
-ISR_ASM_SRC = ./kernel/cpu/src/asm/interrupts.asm
-ISR_STUB_ASM_SRC = ./kernel/cpu/src/asm/stub.asm
-
-# Directories
-LIB_DIR = ./libs/src
-DRIVER_DIR = ./drivers/src
-
-# Find all .c files in libs and drivers directories
-LIB_SRCS = $(wildcard $(LIB_DIR)/*.c)
-DRIVER_SRCS = $(wildcard $(DRIVER_DIR)/*.c)
-
-# Convert source file lists to object file lists (keep object files in their directories)
-LIB_OBJS = $(LIB_SRCS:.c=.o)
-DRIVER_OBJS = $(DRIVER_SRCS:.c=.o)
-
+# Collect C source files
+C_SOURCES = $(wildcard kernel/*.c drivers/src/*.c cpu/src/*.c libc/src/*.c)
+# Collect header files
+HEADERS = $(wildcard kernel/*.h drivers/include/*.h cpu/include/*.h libc/include/*.h)
 # Object files
-BOOT_OBJ = ./boot/boot.o
-KERNEL_OBJ = ./kernel/kernel.o
-ISR_OBJ = ./kernel/cpu/src/isr.o
-IDT_OBJ = ./kernel/cpu/src/idt.o
-ISR_ASM_OBJ = ./kernel/cpu/src/asm/interrupts.o
-ISR_STUB_ASM_OBJ = ./kernel/cpu/src/asm/stub.o
+OBJ = ${C_SOURCES:.c=.o} cpu/src/asm/interrupts.o cpu/src/asm/stub.o
 
-# Output binary
-KERNEL_BIN = ./bin/kernel.bin
+# Compiler and tools
+CC = i386-elf-gcc
+GDB = i386-elf-gdb
 
-# Targets
-all: $(KERNEL_BIN) run
+# Compiler flags
+CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -Wimplicit-function-declaration -Wchar-subscripts
 
-$(BOOT_OBJ): $(BOOT_SRC)
-	$(ASM) $(ASM_FLAGS) $(BOOT_SRC) -o $(BOOT_OBJ)
+# Default target
+kai-os.bin: boot/bootsect.bin kernel.bin
+	cat $^ > kai-os.bin
 
-$(KERNEL_OBJ): $(KERNEL_SRC)
-	$(CC) $(CFLAGS) $(KERNEL_SRC) -o $(KERNEL_OBJ) -c
+# Linking the kernel
+kernel.bin: boot/kernel_entry.o ${OBJ}
+	i386-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
-$(ISR_OBJ): $(ISR_SRC)
-	$(CC) $(CFLAGS) $(ISR_SRC) -o $(ISR_OBJ) -c
+# Kernel ELF for debugging
+kernel.elf: boot/kernel_entry.o ${OBJ}
+	i386-elf-ld -o $@ -Ttext 0x1000 $^
 
-$(IDT_OBJ): $(IDT_SRC)
-	$(CC) $(CFLAGS) $(IDT_SRC) -o $(IDT_OBJ) -c
+# Run the OS in QEMU
+run: kai-os.bin
+	qemu-system-i386 -fda kai-os.bin
 
-$(ISR_ASM_OBJ): $(ISR_ASM_SRC)
-	$(ASM) $(ASM_FLAGS) $(ISR_ASM_SRC) -o $(ISR_ASM_OBJ)
+# Debugging with QEMU and GDB
+debug: kai-os.bin kernel.elf
+	qemu-system-i386 -s -fda kai-os.bin -d guest_errors,int &
+	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 
-$(ISR_STUB_ASM_OBJ): $(ISR_STUB_ASM_SRC)
-	$(ASM) $(ASM_FLAGS) $(ISR_STUB_ASM_SRC) -o $(ISR_STUB_ASM_OBJ)
+# Rules for building object files from .c files
+%.o: %.c ${HEADERS}
+	${CC} ${CFLAGS} -c $< -o $@
 
-# Compile all libraries and drivers, keeping the object files in their directories
-$(LIB_DIR)/%.o: $(LIB_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@ -c
+# Rules for building object files from assembly files
+%.o: %.asm
+	nasm $< -f elf -o $@
 
-$(DRIVER_DIR)/%.o: $(DRIVER_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@ -c
+# Rules for building binary files from assembly files
+%.bin: %.asm
+	nasm $< -f bin -o $@
 
-# Link everything together
-$(KERNEL_BIN): $(BOOT_OBJ) $(KERNEL_OBJ) $(ISR_OBJ) $(IDT_OBJ) $(ISR_ASM_OBJ) $(ISR_STUB_ASM_OBJ) $(LIB_OBJS) $(DRIVER_OBJS)
-	$(LD) $(LDFLAGS) -o $(KERNEL_BIN) $(BOOT_OBJ) $(KERNEL_OBJ) $(ISR_OBJ) $(IDT_OBJ) $(ISR_ASM_OBJ) $(ISR_STUB_ASM_OBJ) $(LIB_OBJS) $(DRIVER_OBJS)
-
-run: $(KERNEL_BIN)
-	$(QEMU) -kernel $(KERNEL_BIN)
-
+# Clean up build artifacts
 clean:
-	rm -f $(BOOT_OBJ) $(KERNEL_OBJ) $(ISR_OBJ) $(IDT_OBJ) $(ISR_ASM_OBJ) $(ISR_STUB_ASM_OBJ) $(LIB_OBJS) $(DRIVER_OBJS) $(KERNEL_BIN)
-
-.PHONY: all run clean
+	rm -rf *.bin *.dis *.o kai-os.bin *.elf
+	rm -rf kernel/*.o boot/*.bin drivers/src/*.o boot/*.o kernel/cpu/src/*.o libs/src/*.o

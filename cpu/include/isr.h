@@ -2,8 +2,9 @@
 #define ISR_H
 
 #include "idt.h"
-#include "../../../libs/include/types.h"
-#include "../../../libs/include/stdlib.h"
+#include "../../libc/include/types.h"
+#include "../../libc/include/stdlib.h"
+#include "../../libc/include/strings.h"
 
 void isr_init();
 void isr_handler(u16bit entry);

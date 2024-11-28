@@ -31,12 +31,17 @@ void gets(char* str){
             break;
         }
 
-        if(c == 0)
-            vga_back();    
-        else
+        if(c == 0) {
+            vga_back();
+            if(i) {                
+                i--;
+                str[i] = '\0';
+            } 
+        }
+        else {
             putch(c);
-            
-        str[i] = c;
+            str[i] = c;
+        }
     }
 }
 

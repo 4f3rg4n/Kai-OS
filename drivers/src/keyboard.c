@@ -1,5 +1,8 @@
 #include "../include/keyboard.h"
 
+//keyboard symbols list
+unsigned char symbols[256];
+
 void init_keyboard() {
     symbols[0x2] = '1'; 
     symbols[0x3] = '2'; 
@@ -50,6 +53,10 @@ void init_keyboard() {
     symbols[0x35] = '/';
     symbols[0x39] = ' ';
     symbols[0x0d] = 0;
+
+#ifdef DBG
+    puts_c("keyboard init successfully\n", 0x0A);
+#endif
 }
 
 char get_byte(){

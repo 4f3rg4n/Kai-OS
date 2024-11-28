@@ -1,4 +1,4 @@
-#include "../include/string.h"
+#include "../include/strings.h"
 
 int strcmp (const char* str1, const char* str2){
     for(int i = 0; 1==1; i++) {
