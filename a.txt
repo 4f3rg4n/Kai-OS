@@ -1,1 +1,0 @@
-i386-elf-ld -o kernel.bin -Ttext 0x1000 boot/kernel_entry.o kernel/kernel.o drivers/src/io.o drivers/src/vga.o drivers/src/keyboard.o cpu/src/isr.o cpu/src/idt.o libc/src/stdlib.o libc/src/memory.o libc/src/strings.o cpu/src/asm/interrupts.o cpu/src/asm/stub.o --oformat binary
