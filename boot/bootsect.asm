@@ -3,8 +3,6 @@
 KERNEL_OFFSET equ 0x1000 ; The same one we used when linking the kernel
 
     mov [BOOT_DRIVE], dl ; Remember that the BIOS sets us the boot drive in 'dl' on boot
-    mov bp, 0x9000
-    mov sp, bp
 
     mov bx, MSG_REAL_MODE 
     call print
@@ -15,11 +13,12 @@ KERNEL_OFFSET equ 0x1000 ; The same one we used when linking the kernel
     jmp $ ; Never executed
 
 %include "boot/print.asm"
-%include "boot/print_hex.asm"
+;%include "boot/print_hex.asm"
 %include "boot/disk.asm"
 %include "boot/gdt.asm"
 %include "boot/32bit_print.asm"
 %include "boot/switch_pm.asm"
+%include "boot/helper_16bit.asm"
 
 [bits 16]
 load_kernel:

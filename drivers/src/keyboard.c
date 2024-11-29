@@ -69,5 +69,5 @@ int get_char() {
     while ((in8(0x64) & 1) == 0); //wait until buffer is empty
     c = get_byte();
 
-    return symbols[c];
+    return symbols[(int)c];
 }

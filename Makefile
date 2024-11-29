@@ -1,6 +1,6 @@
-# Collect C source files
+# C source files
 C_SOURCES = $(wildcard kernel/*.c drivers/src/*.c cpu/src/*.c libc/src/*.c)
-# Collect header files
+# header files
 HEADERS = $(wildcard kernel/*.h drivers/include/*.h cpu/include/*.h libc/include/*.h)
 # Object files
 OBJ = ${C_SOURCES:.c=.o} cpu/src/asm/interrupts.o cpu/src/asm/stub.o
@@ -10,7 +10,7 @@ CC = i386-elf-gcc
 GDB = i386-elf-gdb
 
 # Compiler flags
-CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -Wimplicit-function-declaration -Wchar-subscripts
+CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -Wimplicit-function-declaration -Wchar-subscripts -Wint-conversion
 
 # Default target
 kai-os.bin: boot/bootsect.bin kernel.bin

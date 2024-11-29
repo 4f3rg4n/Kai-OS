@@ -55,9 +55,9 @@ int printf(char* format, void* data) {
     int size = 0;
 
     if(!strcmp(format, "%s"))
-        size = puts(data);
+        size = puts((char*)data);
     else if(!strcmp(format, "%d"))
-        size = puti(data);
+        size = puti((int)data);
     
     return size;
 }
