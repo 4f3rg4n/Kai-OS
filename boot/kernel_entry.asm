@@ -1,7 +1,5 @@
-global _start;
-[bits 32]
+[BITS 32]
+[extern kmain]
+call kmain
+jmp $
 
-_start:
-    [extern kmain] ; kmain is the first c function we calling in the kernel
-    call kmain
-    jmp $

@@ -19,6 +19,7 @@ print_16bit:
 
     ;when null byte
     stop_print_16bit:
+        call new_line_16bit
         mov sp, bp
         pop bp
         pop si

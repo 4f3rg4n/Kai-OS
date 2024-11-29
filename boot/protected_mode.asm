@@ -26,4 +26,4 @@ init_pm:
     mov esp, ebp
 
     ;start pm
-    call BEGIN_PM
+    call protected_mode
