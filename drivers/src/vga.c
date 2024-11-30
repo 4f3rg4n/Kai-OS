@@ -45,6 +45,7 @@ void vga_clean_screen(){
 }
 
 void vga_back() {
+    vga_set(row, col, 0);
     if(col != 0) {
         col -= 2;
     }

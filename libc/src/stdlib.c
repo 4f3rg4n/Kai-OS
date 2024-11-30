@@ -21,11 +21,17 @@ char getch(){
 }
 
 void gets(char* str){
-    char c = 0;
-    for(int i = 0; 1==1; i++) {
+    char c = 0, i = 0;
+    while(1) {
         c = getch();
         getch();
-        
+        if(c == 0xE) {
+            if(i) {
+                backspace();
+                i--;
+            }
+            continue;
+        }
         if(c == '\n') {
             str[i] = '\0';
             break;
@@ -42,6 +48,8 @@ void gets(char* str){
             putch(c);
             str[i] = c;
         }
+
+        i++;
     }
 }
 
@@ -58,6 +66,8 @@ int printf(char* format, void* data) {
         size = puts((char*)data);
     else if(!strcmp(format, "%d"))
         size = puti((int)data);
+    else
+        size = puts(format);
     
     return size;
 }

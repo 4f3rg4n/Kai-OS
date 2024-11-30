@@ -1,4 +1,5 @@
-BITS 32
+[BITS 32]
+[extern kmain]
 
 ;Multiboot standard
 
@@ -9,7 +10,6 @@ SECTION .text
     dd      - (0x1BADB002+0x00) ; Checksum
 
 GLOBAL start
-EXTERN kmain
 
 start:
     cli                 

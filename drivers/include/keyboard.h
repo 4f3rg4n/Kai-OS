@@ -12,6 +12,7 @@
 extern unsigned char symbols[256];
 
 void keyboard_init();
+int backspace();
 char get_byte();
 int get_char();
 

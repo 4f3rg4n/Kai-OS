@@ -5,6 +5,11 @@
 #define WIDTH 160
 #define HEIGHT 25
 
+extern char (*screen)[WIDTH];
+extern short row;
+extern short col;
+extern char default_color;
+
 void vga_putch(char ch, char color);
 void vga_next_line();
 void vga_set(short row, short col, char ch);
