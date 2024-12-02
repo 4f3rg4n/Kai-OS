@@ -20,6 +20,8 @@ BOOT_TYPE ?= boot  # Default to 'boot'. Set BOOT_TYPE=Multiboot to use the Multi
 # Default target
 kai-os.bin: $(BOOT_TYPE)/bootsect.bin kernel.bin
 	cat $^ > kai-os.bin
+	cat $^ > iso/kai-os.bin
+	genisoimage -o kai-os.iso -b kai-os.bin -no-emul-boot -boot-load-size 4 -boot-info-table iso/
 
 # Linking the kernel
 kernel.bin: $(BOOT_TYPE)/kernel_entry.o ${OBJ}
@@ -65,5 +67,5 @@ debug: kai-os.bin kernel.elf
 # Clean up build artifacts
 clean:
 	rm -rf *.bin *.dis *.o kai-os.bin *.elf
-	rm -rf kernel/*.o boot/*.bin drivers/src/*.o boot/*.o cpu/src/*.o cpu/src/asm/*.o libc/src/*.o Multiboot/*.bin kernel/shell/src/*.o
+	rm -rf iso/*.bin kai-os.iso kernel/*.o boot/*.bin drivers/src/*.o boot/*.o cpu/src/*.o cpu/src/asm/*.o libc/src/*.o Multiboot/*.bin kernel/shell/src/*.o
 
