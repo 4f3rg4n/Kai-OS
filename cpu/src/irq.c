@@ -1,5 +1,8 @@
 #include "../include/irq.h"
 
+// global irq handlers
+void* irq_handlers[IRQS] = {0};
+
 void remap_irqs(){
     //ICW1 - send init process command.
     out8(MASTER_PIC_COMMAND, ICW1 | ICW4);
@@ -17,12 +20,20 @@ void remap_irqs(){
     out8(MASTER_PIC_DATA, ICW4);
     out8(SLAVE_PIC_DATA, ICW4);
 
-    //OCW1 - enable using irq's from both pic's.
-    out8(MASTER_PIC_DATA, UNMASKING_VALUE);
-    out8(SLAVE_PIC_DATA, UNMASKING_VALUE);
+    //OCW1 - disable using irq's from both pic's until we init them.
+    out8(MASTER_PIC_DATA, MASKING_VALUE);
+    out8(SLAVE_PIC_DATA, MASKING_VALUE);
 }
 
+
+/*
+This function used to setup the irq handlers addresses inside the idt table,
+and to prevent overwrite of the cpu interrupts by the pic irq's using remaping.
+Output - Null.
+*/
 void irq_init(){
+    remap_irqs();
+
     idt_set_new_gate(irq00_offset, (u32bit)irq00, 0x08, 0x8E);
     idt_set_new_gate(irq01_offset, (u32bit)irq01, 0x08, 0x8E);
     idt_set_new_gate(irq02_offset, (u32bit)irq02, 0x08, 0x8E);
@@ -43,4 +54,22 @@ void irq_init(){
     #ifdef DBG
     puts_c("IRQ init successfully\n", 0x0A);
     #endif
+}
+
+void enable_irq(u8bit offset) {
+
+}
+
+void disable_irq(u8bit offset) {
+
+}
+
+void irq_set_handler(u8bit offset, void* handler) {
+    enable_irq(offset);
+    irq_handlers[offset] = handler;
+}
+
+void irq_del_handler(u8bit offset) {
+    disable_irq(offset);
+    irq_handlers[offset] = 0;
 }

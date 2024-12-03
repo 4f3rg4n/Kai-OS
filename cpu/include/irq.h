@@ -3,6 +3,7 @@
 
 #include "../../debug/debug.h"
 #include "../../drivers/include/io.h"
+#include "../../libc/include/types.h"
 #include "idt.h"
 
 #define MASTER_PIC_COMMAND 0x20 // master pic command sending port
@@ -30,9 +31,12 @@ bit(0) = 1 - this bit config the pic to work in 8086/88 mode.
 that we want to connect the irq 2 to the slave pic */
 #define MASTER_IRQ_CONNECT_SLAVE 0b00000100 
 
-/* after the initialization process all the IMR bits are masking, 
-this is security step to save us from call to wrong irq's. */
+/* used for disable and enable irq's */
 #define UNMASKING_VALUE 0 
+#define MASKING_VALUE 1
+
+// number of irqs in both master & slave pic's.
+#define IRQS 0x10
 
 enum irqs{
     //start of master irq's
@@ -72,8 +76,14 @@ extern void irq13();
 extern void irq14();
 extern void irq15();
 
+// using to set / start irq handler.
+extern void* irq_handlers[IRQS] = {0};
+
 void remap_irqs();
 void irq_init();
-void irq_handler();
+void enable_irq();
+void disable_irq();
+void irq_set_handler(u8bit offset, void* handler);
+void irq_del_handler(u8bit offset);
 
 #endif
