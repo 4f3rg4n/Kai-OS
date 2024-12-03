@@ -5,6 +5,14 @@ disk_read:
     pusha
     push dx
 
+    ;mov ah, 0x02          ; BIOS read function
+    ;mov al, 17             ; Number of sectors to read (1 sector)
+    ;mov dl, 0x02          ; Disk drive number (0x80 = CD/DVD)
+    ;mov ch, 0             ; Cylinder number (0)
+    ;mov cl, 2             ; Sector number (sector 2)
+    ;mov dh, 0             ; Head number (0 for CD)
+    ;int 0x13  
+
     mov ah, 2         ;read mode
     mov al, dh ;num of sectors to read
     mov cl, byte 0x02

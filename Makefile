@@ -67,5 +67,5 @@ debug: kai-os.bin kernel.elf
 # Clean up build artifacts
 clean:
 	rm -rf *.bin *.dis *.o kai-os.bin *.elf
-	rm -rf iso/*.bin kai-os.iso kernel/*.o boot/*.bin drivers/src/*.o boot/*.o cpu/src/*.o cpu/src/asm/*.o libc/src/*.o Multiboot/*.bin kernel/shell/src/*.o
+	rm -rf iso/*.bin kai-os.iso kernel/src/*.o boot/*.bin drivers/src/*.o boot/*.o Multiboot/*.o cpu/src/*.o cpu/src/asm/*.o libc/src/*.o Multiboot/*.bin kernel/shell/src/*.o
 
