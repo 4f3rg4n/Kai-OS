@@ -71,9 +71,9 @@ void isr_init() {
     idt_set_new_gate(30, (u32bit)isr30, 0x08, 0x8E);
     idt_set_new_gate(31, (u32bit)isr31, 0x08, 0x8E);
 
-#ifdef DBG
-    puts_c("idt init successfully\n", 0x0A);
-#endif
+    #ifdef DBG
+    puts_c("ISR init successfully\n", 0x0A);
+    #endif
 }
 
 void isr_handler(u16bit entry) {

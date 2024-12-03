@@ -3,6 +3,7 @@
 
 #include "../../debug/debug.h"
 #include "../../drivers/include/io.h"
+#include "idt.h"
 
 #define MASTER_PIC_COMMAND 0x20 // master pic command sending port
 #define SLAVE_PIC_COMMAND 0xA0 // slave pic command sending port
@@ -53,6 +54,23 @@ enum irqs{
     irq14_offset,
     irq15_offset,
 };
+
+extern void irq00();
+extern void irq01();
+extern void irq02();
+extern void irq03();
+extern void irq04();
+extern void irq05();
+extern void irq06();
+extern void irq07();
+extern void irq08();
+extern void irq09();
+extern void irq10();
+extern void irq11();
+extern void irq12();
+extern void irq13();
+extern void irq14();
+extern void irq15();
 
 void remap_irqs();
 void irq_init();

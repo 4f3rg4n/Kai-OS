@@ -1,22 +1,5 @@
 #include "../include/irq.h"
 
-extern void irq0();
-extern void irq1();
-extern void irq2();
-extern void irq3();
-extern void irq4();
-extern void irq5();
-extern void irq6();
-extern void irq7();
-extern void irq8();
-extern void irq9();
-extern void irq10();
-extern void irq11();
-extern void irq12();
-extern void irq13();
-extern void irq14();
-extern void irq15();
-
 void remap_irqs(){
     //ICW1 - send init process command.
     out8(MASTER_PIC_COMMAND, ICW1 | ICW4);
@@ -39,3 +22,25 @@ void remap_irqs(){
     out8(SLAVE_PIC_DATA, UNMASKING_VALUE);
 }
 
+void irq_init(){
+    idt_set_new_gate(irq00_offset, (u32bit)irq00, 0x08, 0x8E);
+    idt_set_new_gate(irq01_offset, (u32bit)irq01, 0x08, 0x8E);
+    idt_set_new_gate(irq02_offset, (u32bit)irq02, 0x08, 0x8E);
+    idt_set_new_gate(irq03_offset, (u32bit)irq03, 0x08, 0x8E);
+    idt_set_new_gate(irq04_offset, (u32bit)irq04, 0x08, 0x8E);
+    idt_set_new_gate(irq05_offset, (u32bit)irq05, 0x08, 0x8E);
+    idt_set_new_gate(irq06_offset, (u32bit)irq06, 0x08, 0x8E);
+    idt_set_new_gate(irq07_offset, (u32bit)irq07, 0x08, 0x8E);
+    idt_set_new_gate(irq08_offset, (u32bit)irq08, 0x08, 0x8E);
+    idt_set_new_gate(irq09_offset, (u32bit)irq09, 0x08, 0x8E);
+    idt_set_new_gate(irq10_offset, (u32bit)irq10, 0x08, 0x8E);
+    idt_set_new_gate(irq11_offset, (u32bit)irq11, 0x08, 0x8E);
+    idt_set_new_gate(irq12_offset, (u32bit)irq12, 0x08, 0x8E);
+    idt_set_new_gate(irq13_offset, (u32bit)irq13, 0x08, 0x8E);
+    idt_set_new_gate(irq14_offset, (u32bit)irq14, 0x08, 0x8E);
+    idt_set_new_gate(irq15_offset, (u32bit)irq15, 0x08, 0x8E);
+
+    #ifdef DBG
+    puts_c("IRQ init successfully\n", 0x0A);
+    #endif
+}
