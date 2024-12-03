@@ -56,12 +56,32 @@ void irq_init(){
     #endif
 }
 
-void enable_irq(u8bit offset) {
+u8bit get_master_IMR() {
+    return in8(MASTER_PIC_COMMAND); // read the master PIC IMR
+}
 
+u8bit get_slave_IMR() {
+    return in8(SLAVE_PIC_COMMAND); // read the slave PIC IMR
+}
+
+u8bit set_master_IMR(u8bit imr) {
+    out8(MASTER_PIC_DATA, imr);
+}
+
+u8bit set_slave_IMR(u8bit imr) {
+    out8(SLAVE_PIC_DATA, imr);
+}
+
+void enable_irq(u8bit offset) {
+    u8bit imr = (offset < 8) ? get_slave_IMR() : get_master_IMR(); // get slave / master IMR by the given offset.
+    imr &= ~(1 << offset);  // enable irq bit by set the bit to 1 by using 'not' & 'and' bitwise
+    (offset < 8) ? set_slave_IMR(imr) : set_master_IMR(imr); // set IMR
 }
 
 void disable_irq(u8bit offset) {
-
+    u8bit imr = (offset < 8) ? get_slave_IMR() : get_master_IMR(); // get slave / master IMR by the given offset.
+    imr |= (1 << offset);  // disable irq bit by set the bit to 0 using 'or' bitwise
+    (offset < 8) ? set_slave_IMR(imr) : set_master_IMR(imr); // set IMR
 }
 
 void irq_set_handler(u8bit offset, void* handler) {

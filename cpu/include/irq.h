@@ -81,6 +81,8 @@ extern void* irq_handlers[IRQS] = {0};
 
 void remap_irqs();
 void irq_init();
+u8bit get_master_IMR();
+u8bit get_slave_IMR();
 void enable_irq();
 void disable_irq();
 void irq_set_handler(u8bit offset, void* handler);
