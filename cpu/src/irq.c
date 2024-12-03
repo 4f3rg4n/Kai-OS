@@ -38,3 +38,4 @@ void remap_irqs(){
     out8(MASTER_PIC_DATA, UNMASKING_VALUE);
     out8(SLAVE_PIC_DATA, UNMASKING_VALUE);
 }
+

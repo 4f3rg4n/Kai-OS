@@ -33,6 +33,29 @@ that we want to connect the irq 2 to the slave pic */
 this is security step to save us from call to wrong irq's. */
 #define UNMASKING_VALUE 0 
 
+enum irqs{
+    //start of master irq's
+    irq00_offset = NEW_MASTER_OFFSET,
+    irq01_offset,
+    irq02_offset,
+    irq03_offset,
+    irq04_offset,
+    irq05_offset,
+    irq06_offset,
+    irq07_offset,
+    //start of slave irq's
+    irq08_offset = NEW_SLAVE_OFFSET,
+    irq09_offset,
+    irq10_offset,
+    irq11_offset,
+    irq12_offset,
+    irq13_offset,
+    irq14_offset,
+    irq15_offset,
+};
+
 void remap_irqs();
+void irq_init();
+void irq_handler();
 
 #endif

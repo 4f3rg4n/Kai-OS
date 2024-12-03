@@ -38,16 +38,16 @@ const char *isr_desc[] = {
 };
 
 void isr_init() {
-    idt_set_new_gate(0,  (u32bit)isr0,  0x08, 0x8E);
-    idt_set_new_gate(1,  (u32bit)isr1,  0x08, 0x8E);
-    idt_set_new_gate(2,  (u32bit)isr2,  0x08, 0x8E);
-    idt_set_new_gate(3,  (u32bit)isr3,  0x08, 0x8E);
-    idt_set_new_gate(4,  (u32bit)isr4,  0x08, 0x8E);
-    idt_set_new_gate(5,  (u32bit)isr5,  0x08, 0x8E);
-    idt_set_new_gate(6,  (u32bit)isr6,  0x08, 0x8E);
-    idt_set_new_gate(7,  (u32bit)isr7,  0x08, 0x8E);
-    idt_set_new_gate(8,  (u32bit)isr8,  0x08, 0x8E);
-    idt_set_new_gate(9,  (u32bit)isr9,  0x08, 0x8E);
+    idt_set_new_gate(0,  (u32bit)isr00, 0x08, 0x8E);
+    idt_set_new_gate(1,  (u32bit)isr01, 0x08, 0x8E);
+    idt_set_new_gate(2,  (u32bit)isr02, 0x08, 0x8E);
+    idt_set_new_gate(3,  (u32bit)isr03, 0x08, 0x8E);
+    idt_set_new_gate(4,  (u32bit)isr04, 0x08, 0x8E);
+    idt_set_new_gate(5,  (u32bit)isr05, 0x08, 0x8E);
+    idt_set_new_gate(6,  (u32bit)isr06, 0x08, 0x8E);
+    idt_set_new_gate(7,  (u32bit)isr07, 0x08, 0x8E);
+    idt_set_new_gate(8,  (u32bit)isr08, 0x08, 0x8E);
+    idt_set_new_gate(9,  (u32bit)isr09, 0x08, 0x8E);
     idt_set_new_gate(10, (u32bit)isr10, 0x08, 0x8E);
     idt_set_new_gate(11, (u32bit)isr11, 0x08, 0x8E);
     idt_set_new_gate(12, (u32bit)isr12, 0x08, 0x8E);

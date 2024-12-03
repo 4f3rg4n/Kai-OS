@@ -10,16 +10,16 @@
 void isr_init();
 void isr_handler(u16bit entry);
 
-extern void isr0();  
-extern void isr1();  
-extern void isr2();
-extern void isr3();  
-extern void isr4();
-extern void isr5();  
-extern void isr6();
-extern void isr7();  
-extern void isr8();
-extern void isr9();  
+extern void isr00();  
+extern void isr01();  
+extern void isr02();
+extern void isr03();  
+extern void isr04();
+extern void isr05();  
+extern void isr06();
+extern void isr07();  
+extern void isr08();
+extern void isr09();  
 extern void isr10();
 extern void isr11();  
 extern void isr12();

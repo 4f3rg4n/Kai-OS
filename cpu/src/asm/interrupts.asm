@@ -1,15 +1,15 @@
 [bits 32]
 
-global isr0
-global isr1
-global isr2
-global isr3
-global isr4
-global isr5
-global isr6
-global isr7
-global isr8
-global isr9
+global isr00
+global isr01
+global isr02
+global isr03
+global isr04
+global isr05
+global isr06
+global isr07
+global isr08
+global isr09
 global isr10
 global isr11
 global isr12
@@ -33,44 +33,62 @@ global isr29
 global isr30
 global isr31
 
+global irq00
+global irq01
+global irq02
+global irq03
+global irq04
+global irq05
+global irq06
+global irq07
+global irq08
+global irq09
+global irq10
+global irq11
+global irq12
+global irq13
+global irq14
+global irq15
+
+
 extern isr_stub
 
-isr0:
+isr00:
     push dword 0
     jmp run
 
-isr1:
+isr01:
     push dword 1
     jmp run
 
-isr2:
+isr02:
     push dword 2
     jmp run
 
-isr3:
+isr03:
     push dword 3
     jmp run
-isr4:
+isr04:
     push dword 4
     jmp run
 
-isr5:
+isr05:
     push dword 5
     jmp run
     
-isr6:
+isr06:
     push dword 6
     jmp run
 
-isr7:
+isr07:
     push dword 7
     jmp run
 
-isr8:
+isr08:
     push dword 8
     jmp run
 
-isr9:
+isr09:
     push dword 9
     jmp run
     
