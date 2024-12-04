@@ -6,6 +6,7 @@
 #include "../../libc/include/strings.h"
 #include "../../cpu/include/idt.h"
 #include "../../cpu/include/isr.h"
+#include "../../cpu/include/timer.h"
 #include "../../drivers/include/keyboard.h"
 #include "../shell/include/shell.h"
 

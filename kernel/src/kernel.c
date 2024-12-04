@@ -12,6 +12,8 @@ void kmain() {
     keyboard_init();
     idt_init();
     isr_init();
+    timer_init();
+    //asm volatile ("int $33");  // Trigger interrupt 1 manually
 
     shell();
 }

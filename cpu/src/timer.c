@@ -24,3 +24,7 @@ void timer_delay(u32bit delay_ticks) {
     u32bit time = delay_ticks + ticks;
     while(ticks < time){};
 }
+
+void timer_set_frequency(u32bit frq) {
+
+}

@@ -1,7 +1,7 @@
 #include "../include/isr.h"
 
 const char *isr_desc[] = {
-    "Division By Zero\0",
+    "Division By Zero",
     "Debug",
     "Divide By Zero Error",
     "Debug",
