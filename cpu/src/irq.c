@@ -93,3 +93,17 @@ void irq_del_handler(u8bit offset) {
     disable_irq(offset);
     irq_handlers[offset] = 0;
 }
+
+void irq_handler(u16bit entry) {
+    void (*handler)();
+
+    // get irq handler
+    handler = irq_handlers[entry - 0x20];
+
+    if (handler) { // check if the handler addr isnt empty
+        handler(); // run handler
+    }
+
+    // sending end of interrupt to the pic of the irq
+    (entry - 0x20) < 8 ? out8(MASTER_PIC_COMMAND, EOI) : out8(SLAVE_PIC_COMMAND, EOI);
+}

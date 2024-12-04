@@ -38,6 +38,9 @@ that we want to connect the irq 2 to the slave pic */
 // number of irqs in both master & slave pic's.
 #define IRQS 0x10
 
+// end of interrupt value to send after interrupt was ended.
+#define EOI 0x20
+
 enum irqs{
     //start of master irq's
     irq00_offset = NEW_MASTER_OFFSET,
@@ -77,15 +80,16 @@ extern void irq14();
 extern void irq15();
 
 // using to set / start irq handler.
-extern void* irq_handlers[IRQS] = {0};
+extern void* irq_handlers[IRQS];
 
 void remap_irqs();
 void irq_init();
 u8bit get_master_IMR();
 u8bit get_slave_IMR();
-void enable_irq();
-void disable_irq();
+void enable_irq(u8bit offset);
+void disable_irq(u8bit offset);
 void irq_set_handler(u8bit offset, void* handler);
 void irq_del_handler(u8bit offset);
+void irq_handler(u16bit entry);
 
 #endif
