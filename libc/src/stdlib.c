@@ -76,6 +76,11 @@ int puti(int var) {
     char num[20] = {0};
     int i = 0, size;
 
+    if(var == 0) {
+        puts("0");
+        return 1;
+    }
+
     for(; var != 0; i++, var /= 10)
         num[i] = (char)((var % 10) + 48);
 

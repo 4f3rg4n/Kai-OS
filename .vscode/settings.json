@@ -64,6 +64,7 @@
     "isr.h": "c",
     "types.h": "c",
     "vga.h": "c",
-    "io.h": "c"
+    "io.h": "c",
+    "timer.h": "c"
   }
 }
