@@ -16,6 +16,11 @@ void shell(){
             goto _start;
         }
 
+        if(!strcmp(command, "delay")) {
+            timer_delay(18 * 3);
+            goto _start;
+        }
+
         printf("\nyou write: ");
         printf(command);
         puts("\n");
