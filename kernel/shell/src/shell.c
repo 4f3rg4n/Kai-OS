@@ -10,7 +10,7 @@ void shell(){
         // if user press just enter
         if(command[0] == '\0')
             goto _start;
-            
+
         if(!strcmp(command, "time")) {
             timer_print();
             goto _start;
@@ -19,7 +19,6 @@ void shell(){
         printf("\nyou write: ");
         printf(command);
         puts("\n");
-        
     } while (strcmp(command, "exit"));
     
     printf("bye!");

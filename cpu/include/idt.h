@@ -6,6 +6,8 @@
 #include "../../debug/debug.h"
 
 #define IDT_ENTRYS 256
+#define KERNEL_CS 0x08 // Kernel Code Segment
+#define INTERRUPT_GATE 0x8E
 
 typedef struct __attribute__((packed)) {
     u16bit base_low;    

@@ -5,6 +5,7 @@
 #include "../../drivers/include/io.h"
 #include "../../libc/include/types.h"
 #include "idt.h"
+#include "isr.h"
 
 #define MASTER_PIC_COMMAND 0x20 // master pic command sending port
 #define SLAVE_PIC_COMMAND 0xA0 // slave pic command sending port
@@ -33,7 +34,7 @@ that we want to connect the irq 2 to the slave pic */
 
 /* used for disable and enable irq's */
 #define UNMASKING_VALUE 0 
-#define MASKING_VALUE 1
+#define MASKING_VALUE 0xFF
 
 // number of irqs in both master & slave pic's.
 #define IRQS 0x10
@@ -86,10 +87,12 @@ void remap_irqs();
 void irq_init();
 u8bit get_master_IMR();
 u8bit get_slave_IMR();
+void set_master_IMR(u8bit imr);
+void set_slave_IMR(u8bit imr);
 void enable_irq(u8bit offset);
 void disable_irq(u8bit offset);
 void irq_set_handler(u8bit offset, void* handler);
 void irq_del_handler(u8bit offset);
 void irq_handler(u16bit entry);
-
+void irq_handlerr(u16bit entry);
 #endif

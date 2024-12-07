@@ -10,10 +10,10 @@ void kmain() {
     | init os drivers | 
     \*---------------*/
     keyboard_init();
-    idt_init();
     isr_init();
+    irq_init();
     timer_init();
-    //asm volatile ("int $33");  // Trigger interrupt 1 manually
+    idt_init();
 
     shell();
 }

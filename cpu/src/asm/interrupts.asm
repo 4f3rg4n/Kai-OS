@@ -248,9 +248,9 @@ irq15:
 run_isr:
     call isr_stub
     add esp, 4
-    ret
+    iret
 
 run_irq:
     call irq_stub
     add esp, 4
-    ret
+    iret
