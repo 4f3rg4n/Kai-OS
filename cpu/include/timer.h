@@ -6,7 +6,6 @@
 #include "../../libc/include/strings.h"
 #include "../../libc/include/stdlib.h"
 
-#define TIMER_HANDLER_OFFSET 32 // offset in PIC irq's.
 #define PIT_BASE_FREQUENCY 0x1234de // set by default in PC hardware by IBM .
 
 #define TIMER_COMMAND_PORT 0x43 // command port to communicate with the timer.

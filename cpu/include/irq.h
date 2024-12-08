@@ -63,6 +63,11 @@ enum irqs{
     irq15_offset,
 };
 
+enum irq_actions{
+    timer_irq,
+    keyboard_irq
+};
+
 extern void irq00();
 extern void irq01();
 extern void irq02();
