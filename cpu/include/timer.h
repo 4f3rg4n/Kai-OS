@@ -2,7 +2,7 @@
 #define TIMER_H
 
 #include "irq.h"
-#include "../../debug/debug.h"
+#include "../../debug/include/debug.h"
 #include "../../libc/include/strings.h"
 #include "../../libc/include/stdlib.h"
 

@@ -18,13 +18,11 @@ void idt_init() {
     idtr.limit = (sizeof(idt_entry) * IDT_ENTRYS) - 1;
     idtr.base = (u32bit)&idt;
     idt_load();
-    
-#ifdef DBG
-    puts_c("idt init successfully\n", 0x0A);
-#endif
+
+    // log msg
+    dbg_ok("IDT init successfully\n");
 }
 
 void idt_load() {
     __asm__ __volatile__("lidtl (%0)" : : "r" (&idtr));
 }
-

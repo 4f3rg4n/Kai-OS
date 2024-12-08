@@ -3,7 +3,7 @@
 
 #include "../../libc/include/types.h"
 #include "../../libc/include/strings.h"
-#include "../../debug/debug.h"
+#include "../../debug/include/debug.h"
 
 #define IDT_ENTRYS 256
 #define KERNEL_CS 0x08 // Kernel Code Segment

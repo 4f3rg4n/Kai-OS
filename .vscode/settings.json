@@ -66,6 +66,9 @@
     "vga.h": "c",
     "io.h": "c",
     "timer.h": "c",
-    "kernel.h": "c"
+    "kernel.h": "c",
+    "debug.h": "c",
+    "strings.h": "c",
+    "irq.h": "c"
   }
 }

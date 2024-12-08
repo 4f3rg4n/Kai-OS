@@ -54,9 +54,7 @@ void keyboard_init() {
     symbols[0x39] = ' ';
     symbols[0x0d] = 0;
 
-#ifdef DBG
-    puts_c("keyboard init successfully\n", 0x0A);
-#endif
+    dbg_ok("keyboard init successfully\n");
 }
 
 int backspace() {

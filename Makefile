@@ -1,5 +1,5 @@
 # C source files
-C_SOURCES = $(wildcard kernel/src/*.c kernel/shell/src/*.c drivers/src/*.c cpu/src/*.c libc/src/*.c)
+C_SOURCES = $(wildcard kernel/src/*.c kernel/shell/src/*.c debug/src/*.c drivers/src/*.c cpu/src/*.c libc/src/*.c)
 # Header files
 HEADERS = $(wildcard kernel/include/*.h kernel/shell/include/*.h drivers/include/*.h cpu/include/*.h libc/include/*.h)
 # ASM files
@@ -67,5 +67,5 @@ debug: kai-os.bin kernel.elf
 # Clean up build artifacts
 clean:
 	rm -rf *.bin *.dis *.o kai-os.bin *.elf
-	rm -rf iso/*.bin kai-os.iso kernel/src/*.o boot/*.bin drivers/src/*.o boot/*.o Multiboot/*.o cpu/src/*.o cpu/src/asm/*.o libc/src/*.o Multiboot/*.bin kernel/shell/src/*.o
+	rm -rf iso/*.bin kai-os.iso kernel/src/*.o boot/*.bin drivers/src/*.o debug/src/*.o boot/*.o Multiboot/*.o cpu/src/*.o cpu/src/asm/*.o libc/src/*.o Multiboot/*.bin kernel/shell/src/*.o
 

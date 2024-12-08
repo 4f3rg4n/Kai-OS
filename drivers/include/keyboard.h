@@ -4,7 +4,7 @@
 #include "io.h"
 #include "vga.h"
 #include "../../libc/include/strings.h"
-#include "../../debug/debug.h"
+#include "../../debug/include/debug.h"
 
 #define KEYBOARD_PORT 0x60
 

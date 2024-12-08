@@ -55,10 +55,11 @@ void irq_init(){
     idt_set_new_gate(irq14_offset, (u32bit)irq14, KERNEL_CS, INTERRUPT_GATE);
     idt_set_new_gate(irq15_offset, (u32bit)irq15, KERNEL_CS, INTERRUPT_GATE);
 
+    // turn on interrupts
     asm volatile("sti");
-    #ifdef DBG
-    puts_c("IRQ init successfully\n", 0x0A);
-    #endif
+
+    // log msg
+    dbg_ok("IRQ init successfully\n");
 }
 
 u8bit get_master_IMR() {

@@ -71,13 +71,11 @@ void isr_init() {
     idt_set_new_gate(30, (u32bit)isr30, KERNEL_CS, INTERRUPT_GATE);
     idt_set_new_gate(31, (u32bit)isr31, KERNEL_CS, INTERRUPT_GATE);
 
-    #ifdef DBG
-    puts_c("ISR init successfully\n", 0x0A);
-    #endif
+    dbg_ok("ISR init successfully\n");
 }
 
 void isr_handler(u16bit entry) {
-    puts_c("alert: \0", 0x04);
-    puts_c(isr_desc[entry], 0x04);
+    dbg_err("alert: \0");
+    dbg_err(isr_desc[entry]);
     puts("\n\0");
 }

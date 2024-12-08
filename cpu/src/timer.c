@@ -16,19 +16,17 @@ void timer_init() {
         return;
     }
     // Set the frequency
-    timer_set_frequency(1000); // Example: 1000 Hz for 1 ms intervals
+    //timer_set_frequency(1000); // Example: 1000 Hz for 1 ms intervals
 
     // Register the IRQ handler
     irq_set_handler(irq00_offset, timer_handler);
 
-#ifdef DBG
-    puts_c("Timer initialized successfully\n", 0x0A);
-#endif
+    dbg_ok("timer init successfully\n");
 }
 
 void timer_set_frequency(u32bit frq) {
     if (frq == 0) {
-        puts("Error: Frequency must be greater than zero\n");
+        dbg_alert("Error: Frequency must be greater than zero\n");
         return;
     }
 

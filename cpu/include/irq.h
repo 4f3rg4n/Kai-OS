@@ -1,7 +1,7 @@
 #ifndef IRQ_H
 #define IRQ_H
 
-#include "../../debug/debug.h"
+#include "../../debug/include/debug.h"
 #include "../../drivers/include/io.h"
 #include "../../libc/include/types.h"
 #include "idt.h"
