@@ -64,7 +64,7 @@ enum irqs{
 };
 
 enum irq_actions{
-    timer_irq,
+    timer_irq = irq00_offset,
     keyboard_irq
 };
 

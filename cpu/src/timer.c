@@ -19,7 +19,7 @@ void timer_init() {
     //timer_set_frequency(1000); // Example: 1000 Hz for 1 ms intervals
 
     // Register the IRQ handler
-    irq_set_handler(irq00_offset, timer_handler);
+    irq_set_handler(timer_irq, timer_handler);
 
     dbg_ok("timer init successfully\n");
 }

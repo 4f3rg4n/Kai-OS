@@ -76,37 +76,3 @@ int get_char() {
         return symbols[(int)c];
     return c;
 }
-
-int get_buf(){
-    char* buf[100] = {0};
-    char c = 0, i = 0;
-    while(1) {
-        c = getch();
-        getch();
-        if(c == 0xE) {
-            if(i) {
-                backspace();
-                i--;
-            }
-            continue;
-        }
-        if(c == '\n') {
-            buf[i] = '\0';
-            break;
-        }
-
-        if(c == 0) {
-            vga_back();
-            if(i) {                
-                i--;
-                buf[i] = '\0';
-            } 
-        }
-        else {
-            putch(c);
-            buf[i] = c;
-        }
-
-        i++;
-    }
-}
