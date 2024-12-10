@@ -1,7 +1,6 @@
 [BITS 16]
 [ORG 0x7C00]
 boot_start:
-    ;times 0x1B - ($ - $$) db 0x90
     times 0x40 db 0x0
     KERNEL_LOCARION equ 0x1000
 

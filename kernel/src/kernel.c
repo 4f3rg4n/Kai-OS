@@ -2,9 +2,8 @@
 
 void kmain() {
     char name[10] = {0};
-
+    
     cls(); //clean screen
-
 
     /*---------------*\
     | init os drivers | 

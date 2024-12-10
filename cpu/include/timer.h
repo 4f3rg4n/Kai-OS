@@ -16,11 +16,22 @@
 extern u32bit ticks;
 extern u32bit frequency;
 
+typedef struct __attribute__((packed)) {
+    u8bit seconds;
+    u8bit minutes;
+    u8bit hours;
+    u32bit row;
+    u32bit col;
+    u8bit isActive;
+} clock_data;
+
 void timer_handler();
 void timer_init();
 void init_timer(u32bit frequency);
 void timer_delay(u32bit delay_ticks);
 void timer_set_frequency(u32bit frq);
+void fixed_time(u8bit* time);
 void timer_print();
+void clock_print();
 
 #endif

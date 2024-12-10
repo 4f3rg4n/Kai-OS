@@ -29,6 +29,7 @@ void vga_next_line(){
 
 void vga_set(short row, short col, char ch){
     screen[row][col] = ch;
+    screen[row][col + 1] = default_color;
 }
 
 char vga_get(short row, short col){

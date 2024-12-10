@@ -2,15 +2,36 @@
 
 u32bit ticks = 0; // Counter for timer ticks
 u32bit frequency = 18; // Default frequency
+clock_data* clock;
 
 void timer_handler() {
     ticks++;
+    clock_print();
     if (ticks % frequency == 0) {
         ticks = 0;
+        clock->seconds++;
+        if(clock->seconds % 60 == 0){
+            clock->seconds = 0;
+            clock->minutes++;
+            if(clock->minutes % 60 == 0){
+                clock->minutes = 0;
+                clock->hours++;
+                if(clock->hours % 24 == 0){
+                    clock->hours = 0;
+                }
+            }
+        }               
     }
 }
 
 void timer_init() {
+    clock->seconds = 0;
+    clock->minutes = 0;
+    clock->hours = 0;
+    clock->row = 0;
+    clock->col = 0;
+    clock->isActive = 1;
+
     if (frequency == 0) {
         puts("Error: Timer frequency cannot be zero\n");
         return;
@@ -52,8 +73,36 @@ void timer_delay(u32bit delay_ticks) {
     }
 }
 
+void fixed_time(u8bit time[]) {
+    if((*time) % 60 == 0) {
+        time[0] = 0;
+        time[1]++;
+    }
+}
+
 void timer_print() {
     puts("\nTicks: ");
     printf("%d", ticks);
     puts("\n");
+}
+
+void clock_print() {
+    if(!clock->isActive)
+        return;
+
+    u32bit row = clock->row, col = clock->col;
+
+    //print seconds
+    vga_set(row, col + 14, (clock->seconds % 10) + '0');
+    vga_set(row, col + 12, (clock->seconds / 10) + '0');
+    vga_set(row, col + 10, ':');
+
+    //print minutes
+    vga_set(row, col + 8, (clock->minutes % 10) + '0');
+    vga_set(row, col + 6, (clock->minutes / 10) + '0');
+    vga_set(row, col + 4, ':');
+
+    //print hours
+    vga_set(row, col + 2, (clock->hours % 10) + '0');
+    vga_set(row, col + 0, (clock->hours / 10) + '0');
 }
