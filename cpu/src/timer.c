@@ -29,7 +29,7 @@ void timer_init() {
     clock->minutes = 0;
     clock->hours = 0;
     clock->row = 0;
-    clock->col = 0;
+    clock->col = 144;
     clock->isActive = 1;
 
     if (frequency == 0) {

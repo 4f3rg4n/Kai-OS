@@ -8,10 +8,10 @@ void kmain() {
     /*---------------*\
     | init os drivers | 
     \*---------------*/
-    keyboard_init();
     isr_init();
     irq_init();
     timer_init();
+    keyboard_init();
     idt_init();
 
     shell();

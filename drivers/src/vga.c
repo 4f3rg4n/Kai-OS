@@ -6,6 +6,12 @@ short col = 0;
 char default_color = 0x0F;
 
 void vga_putch(char ch, char color){
+    //check if the char is just new enter line
+    if(ch == '\n') {
+        vga_next_line();
+        return;
+    }
+
     if(!color)
         color = default_color;
 

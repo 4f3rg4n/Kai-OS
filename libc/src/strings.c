@@ -1,6 +1,6 @@
 #include "../include/strings.h"
 
-int strcmp (const char* str1, const char* str2){
+int strcmp(const char* str1, const char* str2){
     for(int i = 0; 1==1; i++) {
         if(str1[i] == '\0' || str2[i] == '\0')
             return 0;
@@ -31,7 +31,7 @@ char* strcpy(char* dst, const char* src) {
 char* strcat(char* dst, const char* src) {
     int i = 0, j = 0;
     while(dst[i] != '\0'){ i++; }
-    do{ 
+    do { 
         dst[i] = src[j]; 
         j++;
         i++;
@@ -42,13 +42,8 @@ char* strcat(char* dst, const char* src) {
 
 int puts_c(const char* str, char color) {
     int i = 0;
-    for (i = 0; str[i] != '\0'; i++){
-        if(str[i] == '\n'){
-            vga_next_line();
-            continue;
-        }
+    for (i = 0; str[i] != '\0'; i++)
         putch_c(str[i], color);
-    }
 
     return i;
 }

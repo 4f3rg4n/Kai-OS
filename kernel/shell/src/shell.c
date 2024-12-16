@@ -5,7 +5,8 @@ void shell(){
     do {
         _start:
         printf("\n$ ");
-        gets(command); // get user command
+        int size = gets(command); // get user command
+        command[size] = 0;
 
         // if user press just enter
         if(command[0] == '\0')

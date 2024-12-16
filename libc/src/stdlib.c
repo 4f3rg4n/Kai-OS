@@ -20,37 +20,8 @@ char getch(){
     return get_char();
 }
 
-void gets(char* str){
-    char c = 0, i = 0;
-    while(1) {
-        c = getch();
-        getch();
-        if(c == 0xE) {
-            if(i) {
-                backspace();
-                i--;
-            }
-            continue;
-        }
-        if(c == '\n') {
-            str[i] = '\0';
-            break;
-        }
-
-        if(c == 0) {
-            vga_back();
-            if(i) {                
-                i--;
-                str[i] = '\0';
-            } 
-        }
-        else {
-            putch(c);
-            str[i] = c;
-        }
-
-        i++;
-    }
+int gets(char* str){
+    return get_buf(str);
 }
 
 void geti(int* var) {

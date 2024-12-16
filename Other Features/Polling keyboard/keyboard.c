@@ -1,4 +1,4 @@
-#include "../include/keyboard.h"
+#include "keyboard.h"
 
 //keyboard symbols list
 unsigned char symbols[256] = {0};
@@ -75,38 +75,4 @@ int get_char() {
     if(symbols[(int)c])
         return symbols[(int)c];
     return c;
-}
-
-int get_buf(){
-    char* buf[100] = {0};
-    char c = 0, i = 0;
-    while(1) {
-        c = getch();
-        getch();
-        if(c == 0xE) {
-            if(i) {
-                backspace();
-                i--;
-            }
-            continue;
-        }
-        if(c == '\n') {
-            buf[i] = '\0';
-            break;
-        }
-
-        if(c == 0) {
-            vga_back();
-            if(i) {                
-                i--;
-                buf[i] = '\0';
-            } 
-        }
-        else {
-            putch(c);
-            buf[i] = c;
-        }
-
-        i++;
-    }
 }
