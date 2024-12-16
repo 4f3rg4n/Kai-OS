@@ -4,6 +4,7 @@ void shell(){
     char command[100] = {0};
     do {
         _start:
+        puts("\n");
         printf("\n$ ");
         int size = gets(command); // get user command
         command[size] = 0;

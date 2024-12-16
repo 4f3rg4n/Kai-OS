@@ -182,6 +182,15 @@ int update_metadata(u8bit code) {
 
 void keyboard_handler() {
     u8bit code = in8(KEYBOARD_DATA_PORT);
+
+    //back key
+    if(code == 0x0E) {
+        vga_back();
+        keyboard_buf[buf_ctr].scancode = 0;
+        if(buf_ctr > 0)
+            buf_ctr--;
+    }
+
     if(update_metadata(code)) //update ctrl/shift/alt/capslock
         return;
 
