@@ -184,7 +184,7 @@ void keyboard_handler() {
     u8bit code = in8(KEYBOARD_DATA_PORT);
 
     //back key
-    if(code == 0x0E) {
+    if(code == 0x0E && buf_ctr) {
         vga_back();
         keyboard_buf[buf_ctr].scancode = 0;
         if(buf_ctr > 0)
