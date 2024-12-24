@@ -51,7 +51,7 @@ gdt_start:
     data_desc_32_bit:
         dw 0xFFFF    ;Descriptor limit size
 
-        dw 0         ;Start of descriptor address 3-bytes
+        dw 0         ;Descriptor Base
         db 0           
 
                      ; Flags settings:
@@ -64,6 +64,26 @@ gdt_start:
                      ; Flags settings:
                      ; ------------------------------------------------------------------------------------------------------------------------------
         db 11001111b ;|One byte: 1-bit Granularity = 1|1-bit 32 bit code = 1|1-bit is64? = 0|1-bit Userbit = 0|4-bit segment limit 4 more bits = 1111|
+                     ; ------------------------------------------------------------------------------------------------------------------------------
+
+        db 0         ;End ofdescriptor addres 1-byte
+
+    data_desc_64_bit:
+        dw 0         ;Descriptor limit size {Ignored in 64-bit}
+
+        dw 0         ;Descriptor Base {Ignored in 64-bit}
+        db 0           
+
+                     ; Flags settings:
+                     ; ---------------------------------------------------------------------------------------------------------------
+        db 10010010b ;|First 4 bits:  1-bit present = 1      |2-bit privilage = 00   |1-bit codedata(1) or traps(0) = 1               |
+                     ;|--------------------------------------|-----------------------|------------------------------------------------|
+                     ;|Second 4 bits: 1-bit contains code = 0|1-bit is direction = 0 |1-bit is writeable = 1|Accessed = 0 (cpu bit...)|
+                     ; ---------------------------------------------------------------------------------------------------------------
+
+                     ; Flags settings:
+                     ; ------------------------------------------------------------------------------------------------------------------------------
+        db 10100000b ;|One byte: 1-bit Granularity = 1|1-bit 32 bit code = 0|1-bit is64? = 1|1-bit Userbit = 0|4-bit segment limit 4 more bits = 0000|
                      ; ------------------------------------------------------------------------------------------------------------------------------
 
         db 0         ;End ofdescriptor addres 1-byte
