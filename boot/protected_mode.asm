@@ -4,7 +4,7 @@ switch_to_pm:
     cli ;turn off interrups
     lgdt [gdt_descriptor] ;load GDT table
 
-    ;set the control bit to 1    
+    ;enable protected mode
     mov eax, cr0
     or eax, 0x1
     mov cr0, eax
