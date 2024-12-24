@@ -95,5 +95,8 @@ gdt_descriptor:
     dw gdt_start - gdt_end - 1 ;GDT size
     dd gdt_start               ;GDT start address
 
-CODE_SEG_32_BIT equ code_desc_32_bit - gdt_start
+;Segments Offsets
+CODE_SEG_32_BIT equ code_desc_32_bit - gdt_start ;32-bit
 DATA_SEG_32_BIT equ data_desc_32_bit - gdt_start
+CODE_SEG_64_BIT equ code_desc_64_bit - gdt_start ;64-bit
+DATA_SEG_64_BIT equ data_desc_64_bit - gdt_start

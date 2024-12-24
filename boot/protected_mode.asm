@@ -9,12 +9,12 @@ switch_to_pm:
     or eax, 0x1
     mov cr0, eax
 
-    call CODE_SEG:init_pm
+    call CODE_SEG_32_BIT:init_pm
 
 [bits 32]
 init_pm:
     ;set data seg registers to the data seg addr
-    mov ax, DATA_SEG
+    mov ax, DATA_SEG_32_BIT
     mov ds , ax
     mov ss , ax 
     mov es , ax
