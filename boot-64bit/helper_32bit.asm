@@ -14,7 +14,7 @@ print_32bit:
         je stop_print_32bit
 
         mov [edx] , ax
-        
+
         inc ebx
         add edx , 2 
         jmp print_flow_32bit

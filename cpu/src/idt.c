@@ -24,5 +24,5 @@ void idt_init() {
 }
 
 void idt_load() {
-    __asm__ __volatile__("lidtl (%0)" : : "r" (&idtr));
+    __asm__ __volatile__("lidt (%0)" : : "r" (&idtr));
 }

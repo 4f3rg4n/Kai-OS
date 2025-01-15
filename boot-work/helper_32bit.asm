@@ -6,7 +6,7 @@ print_32bit:
     mov ebp, esp
 
     mov ah , 0x0f
-    mov edx , 0xb8000
+    mov edx , [curr]
 
     print_flow_32bit:
         mov al , byte [ebx]
@@ -21,8 +21,13 @@ print_32bit:
 
     stop_print_32bit:
 
+    mov ebx, curr
+    mov [ebx], edx
+
     mov esp, ebp
     pop ebp
     pop edx
     pop ebx
     ret
+
+curr: dd 0xb8000

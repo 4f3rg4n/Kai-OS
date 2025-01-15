@@ -92,7 +92,7 @@ gdt_end:
 
 ;GDT descriptor
 gdt_descriptor:
-    dw gdt_start - gdt_end - 1 ;GDT size
+    dw gdt_end - gdt_start - 1 ;GDT size
     dd gdt_start               ;GDT start address
 
 ;Segments Offsets

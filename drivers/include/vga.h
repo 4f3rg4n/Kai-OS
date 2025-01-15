@@ -1,4 +1,4 @@
-#ifndef VGH_H
+#ifndef VGA_H
 #define VGA_H
 
 #define VGA_ADDR 0xb8000

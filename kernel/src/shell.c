@@ -4,8 +4,7 @@ void shell(){
     char command[100] = {0};
     do {
         _start:
-        puts("\n");
-        printf("$ ");
+        puts("\n$ ");
         int size = gets(command); // get user command
         command[size] = 0;
 
@@ -23,10 +22,10 @@ void shell(){
             goto _start;
         }
 
-        printf("\n$ you write: ");
-        printf(command);
+        puts("\n$ you write: ");
+        puts(command);
         puts("\n");
     } while (strcmp(command, "exit"));
     
-    printf("bye!");
+    puts("bye!");
 }

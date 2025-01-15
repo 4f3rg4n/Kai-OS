@@ -1,12 +1,10 @@
 #include "../include/kernel.h"
 
-void kmain() {
-    char name[10] = {0};
-    
+void kmain() {    
     cls(); //clean screen
 
     /*---------------*\
-    | init os drivers | 
+    | init os drivers |
     \*---------------*/
     isr_init();
     irq_init();

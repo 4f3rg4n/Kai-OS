@@ -22,47 +22,40 @@ BIOS_Parametr_Block:
     dd 0       ;large total sectors
 
 boot_start:
+    cli
+    xor ax, ax
+    mov ds, ax
+    mov es, ax
+    mov ss, ax
+    mov sp, 0x7C00
+
     mov [BOOT_DRIVE], dl ;save boot drive addr
 
-    ;print boot message
+    ;open message
+    a:
     push open_message
-    call print_16bit
+    call print_32bit
     add sp, 2
-
-    call load_kernel
+    jmp a
+    ; Load GDT and switch to protected mode
     call switch_to_pm
 
-    jmp $
+    ; Infinite loop to prevent returning
+    hlt
 
 %include "boot/disk_16bit.asm"
 %include "boot/protected_mode.asm"
+%include "boot/long_mode.asm"   
 %include "boot/gdt.asm"
 %include "boot/helper_16bit.asm"
 %include "boot/helper_32bit.asm"
 
-[BITS 16]
-load_kernel:
-    mov bx, KERNEL_LOCARION  ;kernel entry
-    mov dh, 31 ;num of sectors by kernel size
-    mov dl, [BOOT_DRIVE]
-    call disk_read
-    ret 
+times 510-($-$$) db 0
+dw 0xAA55
 
-[BITS 32]
-protected_mode:
-    push PM_MSG
-    call print_32bit
-    add sp, 2
-
-    call KERNEL_LOCARION ; Give control to the kernel
-    jmp $ ; Stay here when the kernel returns control to us (if ever)
-
-KERNEL_LOCARION equ 0x1000
-
+section .bss
+BOOT_DRIVE: resb 1
+KERNEL_LOCATION equ 0x100000 ; 1MB
 open_message: db 'Start booting Kai-OS...', 0
 PM_MSG: db 'Entered into protected mode', 0
-BOOT_DRIVE: db 0x80
-
-TIMES 510-($-$$) db 0
-dw 0xaa55
-
+LM_MSG: db 'Entered into long mode', 0
