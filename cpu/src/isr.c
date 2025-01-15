@@ -14,7 +14,7 @@ const char *isr_desc[] = {
     "Double Fault",
     "Coprocessor Segment Overrun",
     "Invalid TSS",
-    "Segment Not Present",
+    "Page Fault",//"Segment Not Present",
     "Stack-Segment Fault",
     "General Protection",
     "Page Fault",

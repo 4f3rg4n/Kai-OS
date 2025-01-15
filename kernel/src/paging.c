@@ -19,6 +19,10 @@ void init_paging() {
 
     page_directory_load(page_directory);
     enable_paging();
+    idt_set_new_gate(14, (u32bit)page_fault_handler, KERNEL_CS, INTERRUPT_GATE);
+
+    // log msg
+    dbg_ok("Paging init successfully\n");
 }
 
 void page_directory_load(u32bit* page_directory){
@@ -27,7 +31,15 @@ void page_directory_load(u32bit* page_directory){
 
 void enable_paging(){
     u32bit cr0;
-    asm volatile("mov %%cr0, %0" : "=r"(cr0)); //read from CR0 reg
-    cr0 |= 0x80000000; //set PG (bit 31)
-    asm volatile("mov %0, %%cr0" : : "r"(cr0)); //write into CR0 reg
+    asm volatile("mov %%cr0, %0" : "=r"(cr0)); 
+    cr0 |= 0x80000000; 
+    asm volatile("mov %0, %%cr0" : : "r"(cr0));
+}
+
+void page_fault_handler() {
+    u32bit faulting_address;
+    asm volatile("mov %%cr2, %0" : "=r"(faulting_address));
+    puts("Page fault");
+    while (1==1){}
+    
 }
