@@ -37,9 +37,11 @@ void enable_paging(){
 }
 
 void page_fault_handler() {
-    u32bit faulting_address;
+    int faulting_address;
     asm volatile("mov %%cr2, %0" : "=r"(faulting_address));
-    puts("Page fault");
+    puts("Page fault in addr ");
+    puti(faulting_address & 0xffff);
+    puts("\n");
     while (1==1){}
     
 }
