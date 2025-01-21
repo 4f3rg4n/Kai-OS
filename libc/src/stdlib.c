@@ -62,6 +62,25 @@ int puti(int var) {
 
     return size;
 }
+int putx(unsigned int var) {
+    char* hex = "0123456789abcdef";
+    char num[20] = {0};
+    int size = 0, i = 0;
+
+    while(var != 0) {
+        u8bit half_byte = var &0xf;
+        num[i] = hex[half_byte];
+        var = var >> 4;
+        i++;
+    }
+
+    size = i;
+
+    for(; i >= 0; i--)
+        putch(num[i - 1]);
+
+    return size;
+}
 
 int atoi(char* str) {
     int res = 0;
