@@ -58,7 +58,7 @@ int puti(int var) {
     size = i;
 
     for(; i >= 0; i--)
-        putch(num[i]);
+        putch(num[i - 1]);
 
     return size;
 }
