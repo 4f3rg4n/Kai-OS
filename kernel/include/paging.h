@@ -6,13 +6,17 @@
 
 #define PAGE_SIZE 4096
 #define PAGE_ENTRIES 1024
+#define PDE_NUM 3
+#define PTE_NUM 1024
 
-extern u32bit page_directory[PAGE_ENTRIES] __attribute__((aligned(PAGE_SIZE)));
-extern u32bit page_table[PAGE_ENTRIES] __attribute__((aligned(PAGE_SIZE)));
+extern u32bit* page_directory; 
 
-void init_paging();
+void paging_init();
 void page_directory_load(u32bit* page_directory);
+
 void enable_paging();
 void page_fault_handler();
+
+int create_page_entry(int, char, char, char, char, char, char, char, char);
 
 #endif

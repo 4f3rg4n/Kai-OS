@@ -31,16 +31,30 @@ void geti(int* var) {
 }
 
 int printf(char* format, void* data) {
-    int size = 0;
+    int size = strsize(format);
+    for(int i = 0; i < strsize(format) - 1; i++) {
+        if(format[i] == '%') {
+            format[i] = '\0';
+            puts(format);
+            switch (format[i + 1]) {
+                case 's':
+                    size += puts(data) - 2;
+                    break;
+                case 'd':                    
+                    size += puti(data) - 2;
+                    break;
+                case 'x':
+                    size += putx(data) - 2;
+                    break;
+                default:
+                    break;
+            }
+            format = format + i + 2;              
+        }
+    }
+    puts(format);
 
-    if(!strcmp(format, "%s"))
-        size = puts((char*)data);
-    else if(!strcmp(format, "%d"))
-        size = puti((int)data);
-    else
-        size = puts(format);
-    
-    return size;
+    return size;    
 }
 
 int puti(int var) {
@@ -57,7 +71,7 @@ int puti(int var) {
 
     size = i;
 
-    for(; i >= 0; i--)
+    for(; i > 0; i--)
         putch(num[i - 1]);
 
     return size;
@@ -76,7 +90,7 @@ int putx(unsigned int var) {
 
     size = i;
 
-    for(; i >= 0; i--)
+    for(; i > 0; i--)
         putch(num[i - 1]);
 
     return size;

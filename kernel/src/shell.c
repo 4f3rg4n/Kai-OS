@@ -18,7 +18,18 @@ void shell(){
         }
 
         if(!strcmp(command, "delay")) {
-            timer_delay(18 * 3);
+            puts("0");
+            timer_delay(18);
+            puts("1");
+            timer_delay(18);
+            puts("2");
+            timer_delay(18);
+            puts("3");
+            goto _start;
+        }
+
+        if(!strcmp(command, "shell")) {
+            shell();
             goto _start;
         }
 

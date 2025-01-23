@@ -12,7 +12,7 @@ CC = i386-elf-gcc
 GDB = i386-elf-gdb
 
 # Compiler flags
-CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32 -Wimplicit-function-declaration -Wchar-subscripts -Wint-conversion
+CFLAGS = -g -O0 -ffreestanding -Wall -Wextra -fno-exceptions -m32 -Wimplicit-function-declaration -Wchar-subscripts -Wint-conversion
 
 # Build option: Select boot folder or Multiboot folder
 BOOT_TYPE ?= boot  # Default to 'boot'. Set BOOT_TYPE=Multiboot to use the Multiboot folder.

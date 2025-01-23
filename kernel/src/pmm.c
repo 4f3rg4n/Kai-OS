@@ -19,12 +19,12 @@ void* pmm_alloc_page() {
     for (u32bit i = 0; i < total_pages; i++) {
         if (!test_bit(i)) { 
             set_bit(i);   
-            return (void*)(i * PAGE_SIZE); 
+            return (void*)((i * PAGE_SIZE));// & 0xFFFFF000); 
         }
     }
 
     dbg_err("PMM Error: Free page not found.\n");
-    return -1; 
+    return PAGE_NOT_FOUND; 
 }
 
 void pmm_free_page(void* page) {
@@ -38,18 +38,17 @@ void pmm_free_page(void* page) {
     clear_bit(index); 
 }
 
-void cls_bitmap(u32bit size){
+void cls_bitmap(u32bit size) {
     memset(memory_bitmap, 0, size); 
 }
 
 void pmm_init(u32bit memory_size) {
     // memory size must be less then memory limit
     total_pages = (memory_size > MEMORY_LIMIT) ? (MEMORY_LIMIT / PAGE_SIZE) : (memory_size / PAGE_SIZE);
-
     cls_bitmap(sizeof(memory_bitmap));
 
     //kernel memory - 1MB
-    for (u32bit i = 0; i < 256; i++)
+    for (u32bit i = 0; i < 128; i++)
         set_bit(i);
 
     dbg_ok("PMM init successfully\n");

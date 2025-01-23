@@ -71,6 +71,10 @@
     "strings.h": "c",
     "irq.h": "c",
     "paging.h": "c",
-    "pmm.h": "c"
+    "pmm.h": "c",
+    "common.h": "c",
+    "fs.h": "c",
+    "initrd.h": "c",
+    "ordered_array.h": "c"
   }
 }

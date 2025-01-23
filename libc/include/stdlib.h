@@ -12,6 +12,7 @@ char getch();
 int gets(char* str);
 void geti(int* var);
 int puti(int var);
+int putx(unsigned int var);
 int atoi(char* str);
 
 #endif
