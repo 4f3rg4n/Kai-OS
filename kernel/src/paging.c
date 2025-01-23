@@ -7,7 +7,7 @@ void paging_init() {
     unsigned int curr_page_frame = 0;
     page_directory = pmm_alloc_page();
 
-    for (int currPDE = 0; currPDE < PDE_NUM; ++currPDE) {
+    for (int currPDE = 0; currPDE < PDE_NUM + 1000; ++currPDE) {
         unsigned *pageTable = pmm_alloc_page();
 
         for (int currPTE = 0; currPTE < PTE_NUM; ++currPTE, ++curr_page_frame) 
@@ -60,3 +60,4 @@ void page_fault_handler() {
     printf("Page fault at address: 0x%x\n",addr);
     while (1) {} //hlt
 }
+
