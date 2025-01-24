@@ -75,6 +75,8 @@
     "common.h": "c",
     "fs.h": "c",
     "initrd.h": "c",
-    "ordered_array.h": "c"
+    "ordered_array.h": "c",
+    "vmm.h": "c",
+    "memory.h": "c"
   }
 }

@@ -1,3 +1,6 @@
+/* Implementation of Physical-Memory-Manager */
+
+
 #ifndef PMM_H
 #define PMM_H
 
@@ -8,6 +11,7 @@
 #define BITMAP_SIZE 1024 << 5 // manage 128MB of memory
 #define MEMORY_LIMIT ((BITMAP_SIZE) * PAGE_SIZE)
 #define PAGE_NOT_FOUND 0
+
 extern u8bit memory_bitmap[BITMAP_SIZE / 8];  
 extern u32bit total_pages;                    
 

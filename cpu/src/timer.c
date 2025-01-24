@@ -82,8 +82,8 @@ void fixed_time(u8bit time[]) {
 
 void timer_print() {
     puts("\nTicks: ");
-    printf("%d", ticks);
-    puts("\n");
+    puti(ticks);
+    putch('\n');
 }
 
 void clock_print() {

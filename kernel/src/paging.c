@@ -7,13 +7,13 @@ void paging_init() {
     unsigned int curr_page_frame = 0;
     page_directory = pmm_alloc_page();
 
-    for (int currPDE = 0; currPDE < PDE_NUM + 1000; ++currPDE) {
+    for (int pde = 0; pde < PDE_NUM; pde++) {
         unsigned *pageTable = pmm_alloc_page();
 
-        for (int currPTE = 0; currPTE < PTE_NUM; ++currPTE, ++curr_page_frame) 
-            pageTable[currPTE] = create_page_entry(curr_page_frame * 4096, 1, 0, 0, 1, 1, 0, 0, 0);
+        for (int pte = 0; pte < PTE_NUM; pte++, curr_page_frame++) 
+            pageTable[pte] = create_page_entry(curr_page_frame * PAGE_SIZE, 1, 0, 0, 1, 1, 0, 0, 0);
 
-        page_directory[currPDE] = create_page_entry(pageTable, 1, 0, 0, 1, 1, 0, 0, 0); 
+        page_directory[pde] = create_page_entry(pageTable, 1, 0, 0, 1, 1, 0, 0, 0); 
     }
 
     page_directory_load(page_directory);
@@ -21,12 +21,12 @@ void paging_init() {
     enable_paging();
 
     // Log success
-    dbg_ok("Paging initialized successfully\n");
+    dbg_ok("Paging init successfully\n");
 }
 
 
-int create_page_entry(int base_address, char is_present, char is_writable, char privilege_level, char is_cache_enabled, char write_through_cahce, char is_accessed, char page_size, char is_dirty) { 
-    int entry = 0;
+u32bit create_page_entry(u32bit base_address, u8bit is_present, u8bit is_writable, u8bit privilege_level, u8bit is_cache_enabled, u8bit write_through_cahce, u8bit is_accessed, u8bit page_size, u8bit is_dirty) { 
+    u32bit entry = 0;
 
     entry |= is_present;
     entry |= is_writable << 1;

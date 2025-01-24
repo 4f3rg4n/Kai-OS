@@ -2,7 +2,6 @@
 
 void kmain() {    
     cls(); //clean screen
-
     /*---------------*\
     | init os drivers |
     \*---------------*/
@@ -11,9 +10,8 @@ void kmain() {
     timer_init();
     keyboard_init();
     idt_init();
-    pmm_init(MEMORY_LIMIT);
+    pmm_init(-1);
     paging_init();
     vmm_init();
     shell();
 }
-

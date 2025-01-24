@@ -1,3 +1,5 @@
+/* Implementation of Virtual-Memory-Manager */
+
 #ifndef VMM_H
 #define VMM_H
 

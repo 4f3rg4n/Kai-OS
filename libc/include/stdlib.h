@@ -7,6 +7,7 @@
 void keyboard();
 void putch(char ch);
 void putch_c(char ch, char color);
+int printf(char* format, void* arg);
 void cls();
 char getch();
 int gets(char* str);

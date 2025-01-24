@@ -1,3 +1,5 @@
+/* Implementation of Physical-Memory-Manager */
+
 #include "../include/pmm.h"
 
 u8bit memory_bitmap[BITMAP_SIZE / 8] = {0};  
@@ -8,7 +10,7 @@ void set_bit(u32bit index) {
 }
 
 void clear_bit(u32bit index) {
-    memory_bitmap[GET_BITMAP_BYTE(index)] &= ~(1 << memory_bitmap[GET_BITMAP_BIT(index)]);
+    memory_bitmap[GET_BITMAP_BYTE(index)] &= ~(1 << GET_BITMAP_BIT(index));
 }
 
 u8bit test_bit(u32bit index) { 
@@ -19,7 +21,7 @@ void* pmm_alloc_page() {
     for (u32bit i = 0; i < total_pages; i++) {
         if (!test_bit(i)) { 
             set_bit(i);   
-            return (void*)((i * PAGE_SIZE));// & 0xFFFFF000); 
+            return (void*)((i * PAGE_SIZE)); 
         }
     }
 
@@ -29,7 +31,6 @@ void* pmm_alloc_page() {
 
 void pmm_free_page(void* page) {
     u32bit index = GET_BITMAP_INDEX((u32bit)page);
-
     if (index >= total_pages) {
         dbg_err("PMM Error: Free invalid page.\n");
         return;
