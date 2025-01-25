@@ -1,5 +1,6 @@
 [BITS 16]
 [ORG 0x7C00]
+;Note: BPB Struct can be found inside the kernel fs code file.
 BIOS_Parametr_Block:
     jmp short boot_start
 

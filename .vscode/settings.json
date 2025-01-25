@@ -77,6 +77,7 @@
     "initrd.h": "c",
     "ordered_array.h": "c",
     "vmm.h": "c",
-    "memory.h": "c"
+    "memory.h": "c",
+    "boot.h": "c"
   }
 }

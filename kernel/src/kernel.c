@@ -12,6 +12,6 @@ void kmain() {
     idt_init();
     pmm_init(-1);
     paging_init();
-    vmm_init();
+    //vmm_init();
     shell();
 }

@@ -9,6 +9,8 @@
 #include "../../cpu/include/timer.h"
 #include "../../drivers/include/keyboard.h"
 #include "pmm.h"
+#include "vmm.h"
+#include "boot.h"
 #include "shell.h"
 
 void kmain();
