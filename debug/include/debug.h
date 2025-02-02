@@ -3,7 +3,7 @@
 
 #include "../../libc/include/strings.h"
 
-//#define DBG
+#define DBG
 
 void dbg_ok(char* dbg_msg);
 void dbg_err(char* dbg_msg);

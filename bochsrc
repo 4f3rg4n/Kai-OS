@@ -1,0 +1,19 @@
+# Bochs configuration file
+
+# Memory
+megs: 32
+
+# Boot from floppy, CD-ROM, or hard disk
+boot: disk
+
+# Specify the disk image (your OS image)
+ata0-master: type=disk, path="Kai-os.bin", mode=flat, cylinders=10, heads=16, spt=63
+
+# Debugger
+display_library: term
+magic_break: disabled
+debugger_log: bochsdbg.txt
+
+# Enable internal debugger
+cpu: log_inst=yes, log_op=yes
+port_e9_hack: enabled

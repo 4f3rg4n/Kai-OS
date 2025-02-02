@@ -10,8 +10,9 @@ void kmain() {
     timer_init();
     keyboard_init();
     idt_init();
-    pmm_init(-1);
+    pmm_init(MEMORY_LIMIT);
     paging_init();
     //vmm_init();
     shell();
 }
+ 

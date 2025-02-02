@@ -16,6 +16,6 @@ void page_directory_load(u32bit* page_directory);
 void enable_paging();
 void page_fault_handler();
 
-u32bit create_page_entry(u32bit, u8bit, u8bit, u8bit, u8bit, u8bit, u8bit, u8bit, u8bit);
+u32bit create_page_entry(u32bit base_address, u8bit is_present, u8bit is_writable, u8bit privilege_level, u8bit is_cache_enabled, u8bit write_through_cahce, u8bit is_accessed, u8bit page_size, u8bit is_dirty);
 
 #endif
