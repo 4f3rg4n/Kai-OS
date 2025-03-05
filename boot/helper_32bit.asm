@@ -8,6 +8,7 @@ print_32bit:
     mov ah , 0x0f
     mov edx , 0xb8000
 
+    ;print until detect null byte
     print_flow_32bit:
         mov al , byte [ebx]
         cmp al , 0 
@@ -18,7 +19,8 @@ print_32bit:
         inc ebx
         add edx , 2 
         jmp print_flow_32bit
-
+    
+    ;when null byte
     stop_print_32bit:
 
     mov esp, ebp

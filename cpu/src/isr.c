@@ -37,6 +37,7 @@ const char *isr_desc[] = {
     "Reserved"
 };
 
+/* init basic isr's into the IDT */
 void isr_init() {
     idt_set_new_gate(0,  (u32bit)isr00, KERNEL_CS, INTERRUPT_GATE);
     idt_set_new_gate(1,  (u32bit)isr01, KERNEL_CS, INTERRUPT_GATE);
@@ -74,6 +75,7 @@ void isr_init() {
     dbg_ok("ISR init successfully\n");
 }
 
+/* Global Handling isr's */
 void isr_handler(u16bit entry) {
     dbg_err("alert: \0");
     dbg_err(isr_desc[entry]);

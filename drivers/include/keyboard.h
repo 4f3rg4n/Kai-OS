@@ -13,6 +13,7 @@
 #define SYMBOLS_TABLE_TYPES 3
 #define KEYBOARD_BUF_SIZE 1024
 
+/* Keyboard control keys scancodes */
 #define CTRL_CODE 0x1D
 #define SHIFT_CODE 0x2A
 #define ALT_CODE 0x38
@@ -23,6 +24,7 @@
 #define IS_PRESSED(code, target_code, res) (res = (code == target_code ? 1 : 0))
 #define IS_RELEASE(code, target_code, res) (res = (code == target_code ? 0 : 1))
 
+/* Keyboard additional metadata struct */
 typedef struct __attribute__((packed)){
     u8bit is_ctrl_pressed;
     u8bit is_shift_pressed;
@@ -30,6 +32,7 @@ typedef struct __attribute__((packed)){
     u8bit is_alt_pressed;
 } keyboard_mdata;
 
+/* Keyboard event struct */
 typedef struct __attribute__((packed)){
     u8bit scancode;
     keyboard_mdata data;

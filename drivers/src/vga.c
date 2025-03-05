@@ -1,5 +1,6 @@
 #include "../include/vga.h"
 
+/* Screen settings */
 char (*screen)[WIDTH] = (char(*)[WIDTH])VGA_ADDR;
 short row = 0;
 short col = 0;
@@ -53,15 +54,17 @@ void vga_clean_screen(){
 
 void vga_back() {
     vga_set(row, col, 0);
+
+    //check if the cursor isn't at the beginning of the line
     if(col != 0) {
         col -= 2;
     }
     else {
-        if(row != 0){
+        if(row != 0){ //check if the cursor isn't at the beginning of the screen
             row--;
             col = WIDTH - 2;
         }
     }
 
-    vga_set(row, col, ' ');
+    vga_set(row, col, '\0'); //set the current char to null (clean it)
 }
