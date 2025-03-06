@@ -1,6 +1,5 @@
 [bits 16]
 switch_to_pm:
-
     cli ;turn off interrups
     lgdt [gdt_descriptor] ;load GDT table
 

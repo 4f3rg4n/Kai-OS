@@ -12,7 +12,7 @@ void kmain() {
     idt_init();
     pmm_init(MEMORY_LIMIT);
     paging_init();
-    //vmm_init();
+    vmm_init();
     shell();
 }
  

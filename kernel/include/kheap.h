@@ -12,6 +12,6 @@ extern u32bit page_ctr;
 
 void* kalloc(u32bit size);
 void* kfree(void* addr);
-inline void update_ctr(void* page, u32bit ctr);
-inline u32bit get_ctr(void* page);
+void update_ctr(void* page, u32bit ctr);
+u32bit get_ctr(void* page);
 #endif

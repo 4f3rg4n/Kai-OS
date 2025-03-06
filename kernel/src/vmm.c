@@ -2,10 +2,10 @@
 
 #include "../include/vmm.h"
 
-vmm_obj* vmms = ;
+vmm_obj* vmms = nullptr;
 
 void vmm_init() {
-    vmms = (vmm_obj*)pmm_alloc_page();
+    vmms = (vmm_obj*)kalloc(sizeof(vmm_obj));
     dbg_ok("VMM init successfully\n");
 }
 
@@ -18,7 +18,7 @@ void set_flags(vmm_obj* vm_object, u8bit is_writeable, u8bit is_exec, u8bit is_u
     vm_object->flags = flags;
 }
 
-void* vmm_alloc(u32bit length, u32bit flags, void* arg) {
+void* vmm_create(u32bit length, u32bit flags, void* arg) {
     length = PAGE_ALIGN(length);
     vmm_obj* new_obj = pmm_alloc_page();
     new_obj->flags = flags;

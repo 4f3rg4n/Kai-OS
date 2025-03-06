@@ -5,5 +5,5 @@ typedef unsigned char   u8bit;
 typedef unsigned short  u16bit;
 typedef unsigned int    u32bit;
 
-#define nullptr (void*)0;
+#define nullptr ((void*)0)
 #endif
