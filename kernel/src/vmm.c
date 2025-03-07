@@ -6,6 +6,11 @@ vmm_obj* vmms = nullptr;
 
 void vmm_init() {
     vmms = (vmm_obj*)kalloc(sizeof(vmm_obj));
+    vmms->length = 0x7fffffff;
+    vmms->base_addr = 0x80000000;
+    set_flags(vmms, 1, 0, 0);
+    vmms->pt_root = pmm_alloc_page();
+
     dbg_ok("VMM init successfully\n");
 }
 
@@ -20,11 +25,11 @@ void set_flags(vmm_obj* vm_object, u8bit is_writeable, u8bit is_exec, u8bit is_u
 
 void* vmm_create(u32bit length, u32bit flags, void* arg) {
     length = PAGE_ALIGN(length);
-    vmm_obj* new_obj = pmm_alloc_page();
+    vmm_obj* new_obj = (vmm_obj*)kalloc(sizeof(vmm_obj));
     new_obj->flags = flags;
     new_obj->length = length;
     
-    //new_obj->base_addr = NULL; //need to be map into virt addr
+    new_obj->base_addr = (void*)0x4f300000;
 
     if(!vmms) {
         dbg_err("Internal Error: VMM is not defined!\n");
@@ -35,6 +40,8 @@ void* vmm_create(u32bit length, u32bit flags, void* arg) {
     vmms->next = new_obj;
 }
 
-void map_memory(void* vpt_root, void* phys, void* virt, u32bit flags) {
-
+void map_memory(void* pt_root, void* phys, void* virt, u32bit flags) {
+    u32bit* page_table = (u32bit*)pt_root;
+    u32bit page_idx = (u32bit)virt / PAGE_SIZE;
+    page_table[page_idx] = (u32bit)phys | flags; //set the virt idx to point to the physical addr
 }
