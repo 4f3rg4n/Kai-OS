@@ -8,8 +8,15 @@
 #include "kheap.h"
 
 #define PAGE_ALIGN(value) (value + (PAGE_SIZE - (value % PAGE_SIZE)))
+
+//rings privilages
 #define KERNEL_RING 0
 #define USER_RING 3
+
+//flags
+#define WRITEABLE 1
+#define EXEC 2
+#define USER 4
 
 typedef struct __attribute__((packed)) {
     void* base_addr;
@@ -20,9 +27,10 @@ typedef struct __attribute__((packed)) {
 } vmm_obj;
 
 extern vmm_obj* vmms;
+extern vmm_obj* kernel_vmm;
 
 void vmm_init();
 void set_flags(vmm_obj* vm_object, u8bit is_writeable, u8bit is_exec, u8bit is_user);
 void* vmm_create(u32bit length, u32bit flags, void* arg, u8bit ring);
-void map_memory(void* vpt_root, void* phys, void* virt, u32bit flags);
+void map_memory(vmm_obj* vmm, void* phys, u32bit flags);
 #endif

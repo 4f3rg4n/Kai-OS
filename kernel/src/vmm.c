@@ -3,13 +3,10 @@
 #include "../include/vmm.h"
 
 vmm_obj* vmms = nullptr;
+vmm_obj* kernel_vmm = nullptr;
 
 void vmm_init() {
-    vmms = (vmm_obj*)kalloc(sizeof(vmm_obj));
-    vmms->length = 0x7fffffff;
-    vmms->base_addr = 0x80000000;
-    set_flags(vmms, 1, 0, 0);
-    vmms->pt_root = pmm_alloc_page();
+    kernel_vmm = vmm_create(0x7fffffff, WRITEABLE, nullptr, KERNEL_RING);
 
  // Set up identity mapping for the kernel (or higher half kernel)
     for (u32bit addr = 0x0; addr < 0x1000000; addr += PAGE_SIZE) {
@@ -37,20 +34,16 @@ void* vmm_create(u32bit length, u32bit flags, void* arg, u8bit ring) {
     vmm_obj* new_obj = (vmm_obj*)kalloc(sizeof(vmm_obj));
     new_obj->flags = flags;
     new_obj->length = length;
+    vmms->pt_root = pmm_alloc_page();
 
     //set the virtual address according the privilages (ring)
     if(ring == KERNEL_RING)
         new_obj->base_addr = (void*)0x80000000;
-    else
+    else if(ring == USER_RING)
         new_obj->base_addr = (void*)0x4f300000;
 
-    if(!vmms) {
-        dbg_err("Internal Error: VMM is not defined!\n");
-        return;
-    }
-
-    new_obj->next = vmms->next;
-    vmms->next = new_obj;
+    new_obj->next = vmms;
+    vmms = new_obj;
 }
 
 void map_memory(void* pt_root, void* phys, void* virt, u32bit flags) {
