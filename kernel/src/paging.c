@@ -4,24 +4,22 @@
 u32bit* page_directory; 
 
 void paging_init() {
-    unsigned int curr_page_frame = 0;
     page_directory = pmm_alloc_page();
 
-    for (int pde = 0; pde < PDE_NUM; pde++) {
-        unsigned *pageTable = pmm_alloc_page();
+    for (u32bit addr = 0x0; addr < 0x400000; addr += PAGE_SIZE) {
+        map_addr(page_directory, addr, addr, 0b11);  // Present + Writable
+    }
 
-        for (int pte = 0; pte < PTE_NUM; pte++, curr_page_frame++) 
-            pageTable[pte] = create_page_entry(curr_page_frame * PAGE_SIZE, 1, 0, 0, 1, 1, 0, 0, 0);
-
-        page_directory[pde] = create_page_entry(pageTable, 1, 0, 0, 1, 1, 0, 0, 0); 
+    for (u32bit addr = 0x80000000; addr < 0x80800000; addr += PAGE_SIZE) {
+        map_addr(page_directory, addr, addr, 0b11);  // Kernel memory mapping
     }
 
     page_directory_load(page_directory);
-    idt_set_new_gate(14, (u32bit)page_fault_handler, KERNEL_CS, INTERRUPT_GATE);
     enable_paging();
+    idt_set_new_gate(14, (u32bit)page_fault_handler, KERNEL_CS, INTERRUPT_GATE);
 
     // Log success
-    dbg_ok("Paging init successfully\n");
+    dbg_ok("Paging initialized successfully\n");
 }
 
 
@@ -42,7 +40,6 @@ u32bit create_page_entry(u32bit base_address, u8bit is_present, u8bit is_writabl
 }
 
 void page_directory_load(u32bit* page_directory) {
-    u32bit cr3;
     asm volatile("mov %0, %%cr3" : : "r"(page_directory)); // Load page directory base into CR3
 }
 
@@ -61,3 +58,26 @@ void page_fault_handler() {
     while (1) {} //hlt
 }
 
+void map_addr(void* pt_root, u32bit base_addr, u32bit addr, u32bit flags) {
+    u32bit* page_directory = (u32bit*)pt_root;
+
+    // Extract indexes from base virtual address
+    u32bit dir_idx = ((u32bit)base_addr >> 22) & 0x3FF;  // PDE index
+    u32bit tbl_idx = ((u32bit)base_addr >> 12) & 0x3FF;  // PTE index
+
+    // Check if page table exists
+    if (!(page_directory[dir_idx] & 1)) { 
+        // Allocate new page table if not present
+        page_directory[dir_idx] = (u32bit)pmm_alloc_page() | 0b11; // Present + Writable
+    }
+
+    // Get the page table base
+    u32bit* page_table = (u32bit*)(page_directory[dir_idx] & 0xFFFFF000);
+
+    // Set the PTE to point to the physical address
+    page_table[tbl_idx] = ((u32bit)addr & 0xFFFFF000) | flags;
+}
+
+void unmap_addr(void* pt_root, u32bit addr) {
+
+}

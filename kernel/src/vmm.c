@@ -6,12 +6,11 @@ vmm_obj* vmms = nullptr;
 vmm_obj* kernel_vmm = nullptr;
 
 void vmm_init() {
-    kernel_vmm = vmm_create(0x7fffffff, WRITEABLE, nullptr, KERNEL_RING);
+    kernel_vmm = vmm_create(KERNEL_LENGTH, VM_WRITEABLE, nullptr, KERNEL_RING);
 
- // Set up identity mapping for the kernel (or higher half kernel)
-    for (u32bit addr = 0x0; addr < 0x1000000; addr += PAGE_SIZE) {
+    for (u32bit addr = 0x0; addr < kernel_vmm->length; addr += PAGE_SIZE) {
         // Map the physical address to the same virtual address (identity mapping)
-        map_memory(vmms->pt_root, (void*)addr, (void*)(0x80000000 + addr), 0x3);  // 0x3 = Readable and Writable
+        map_memory(kernel_vmm, (void*)addr);  // 0x3 = Readable and Writable
     }
 
     // Enable paging with the page directory
@@ -46,8 +45,8 @@ void* vmm_create(u32bit length, u32bit flags, void* arg, u8bit ring) {
     vmms = new_obj;
 }
 
-void map_memory(void* pt_root, void* phys, void* virt, u32bit flags) {
-    u32bit* page_table = (u32bit*)pt_root;
-    u32bit page_idx = (u32bit)virt / PAGE_SIZE;
-    page_table[page_idx] = (u32bit)phys | flags; //set the virt idx to point to the physical addr
+void map_memory(vmm_obj* vmm, void* phys) {
+    u32bit* page_table = (u32bit*)vmm->pt_root;
+    u32bit page_idx = (u32bit)vmm->base_addr / PAGE_SIZE;
+    page_table[page_idx] = (u32bit)phys | vmm->flags; //set the virt idx to point to the physical addr
 }
