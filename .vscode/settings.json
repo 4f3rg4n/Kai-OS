@@ -89,6 +89,7 @@
     "tuple": "c",
     "type_traits": "c",
     "utility": "c",
-    "kheap.h": "c"
+    "kheap.h": "c",
+    "acpi.h": "c"
   }
 }

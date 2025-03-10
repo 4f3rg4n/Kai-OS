@@ -13,6 +13,7 @@ void kmain() {
     pmm_init(MEMORY_LIMIT);
     paging_init();
     vmm_init();
+    acpi_init();
     shell();
 }
  

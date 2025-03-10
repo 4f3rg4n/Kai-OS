@@ -20,13 +20,9 @@ void remap_irqs(){
     out8(MASTER_PIC_DATA, ICW4);
     out8(SLAVE_PIC_DATA, ICW4);
 
-    //OCW1 - disable using irq's from both pic's until we init them.
-    //out8(MASTER_PIC_DATA, UNMASKING_VALUE);
-    //out8(SLAVE_PIC_DATA, UNMASKING_VALUE);
-
-    // OCW1 - disable all IRQs initially (0xFF masks everything).
-    out8(MASTER_PIC_DATA, 0xFF);  // Disable all master PIC IRQs.
-    out8(SLAVE_PIC_DATA, 0XFF);   // Disable all slave PIC IRQs.
+    //OCW1 - disable all IRQs initially (0xFF masks everything).
+    out8(MASTER_PIC_DATA, MASKING_VALUE);  // Disable all master PIC IRQs.
+    out8(SLAVE_PIC_DATA, MASKING_VALUE);   // Disable all slave PIC IRQs.
 }
 
 

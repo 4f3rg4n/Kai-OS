@@ -12,6 +12,7 @@
 #include "vmm.h"
 #include "boot.h"
 #include "shell.h"
+#include "acpi.h"
 
 void kmain();
 
