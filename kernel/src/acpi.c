@@ -1,6 +1,5 @@
 #include "../include/acpi.h"
 
-// Function to calculate checksum
 int acpi_checksum(void* base, u32bit length) {
     u8bit sum = 0;
     for (u32bit i = 0; i < length; i++) {
@@ -9,7 +8,6 @@ int acpi_checksum(void* base, u32bit length) {
     return sum == 0;
 }
 
-// Function to search for RSDP
 RSDPDescriptor* find_rsdp() {
     for (u32bit* addr = RSDP_SEARCH_START; addr < RSDP_SEARCH_END; addr += 16) {
         RSDPDescriptor* rsdp = (RSDPDescriptor*)addr;
@@ -20,7 +18,6 @@ RSDPDescriptor* find_rsdp() {
     return nullptr;
 }
 
-// Function to parse RSDT
 void parse_rsdt(RSDT* rsdt) {
     int entry_count = (rsdt->header.length - sizeof(ACPISDTHeader)) / 4;
     for (int i = 0; i < entry_count; i++) {

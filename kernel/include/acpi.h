@@ -5,7 +5,7 @@
 #define RSDP_SEARCH_END   0x000FFFFF
 
 typedef struct {
-    char signature[8];   // "RSD PTR "
+    char signature[8];  
     u8bit checksum;
     char oem_id[6];
     u8bit revision;
@@ -13,7 +13,7 @@ typedef struct {
 } __attribute__((packed)) RSDPDescriptor;
 
 typedef struct {
-    char signature[4];  // Table Signature
+    char signature[4]; 
     u32bit length;
     u8bit revision;
     u8bit checksum;
@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     ACPISDTHeader header;
-    u32bit table_pointers[];  // Array of table addresses
+    u32bit table_pointers[];  
 } __attribute__((packed)) RSDT;
 
 int acpi_checksum(void* base, u32bit length);
