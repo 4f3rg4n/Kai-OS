@@ -91,6 +91,7 @@
     "utility": "c",
     "kheap.h": "c",
     "acpi.h": "c",
-    "shell.h": "c"
+    "shell.h": "c",
+    "kerrors.h": "c"
   }
 }

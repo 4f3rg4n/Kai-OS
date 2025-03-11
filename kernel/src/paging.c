@@ -1,20 +1,12 @@
 #include "../include/paging.h"
 #include "../include/pmm.h"
 
-u32bit* page_directory; 
+u32bit* page_directory = nullptr; 
 
-void paging_init() {
-    page_directory = pmm_alloc_page();
+void paging_init(u32bit* pt_root) {
+    //page_directory = pmm_alloc_page();
 
-    for (u32bit addr = 0x0; addr < 0x400000; addr += PAGE_SIZE) {
-        map_addr(page_directory, addr, addr, 0b11);  // Present + Writable
-    }
-
-    for (u32bit addr = 0x80000000; addr < 0x80800000; addr += PAGE_SIZE) {
-        map_addr(page_directory, addr, addr, 0b11);  // Kernel memory mapping
-    }
-
-    page_directory_load(page_directory);
+    page_directory_load(pt_root);
     enable_paging();
     idt_set_new_gate(14, (u32bit)page_fault_handler, KERNEL_CS, INTERRUPT_GATE);
 
@@ -61,23 +53,32 @@ void page_fault_handler() {
 void map_addr(void* pt_root, u32bit base_addr, u32bit addr, u32bit flags) {
     u32bit* page_directory = (u32bit*)pt_root;
 
-    // Extract indexes from base virtual address
-    u32bit dir_idx = ((u32bit)base_addr >> 22) & 0x3FF;  // PDE index
-    u32bit tbl_idx = ((u32bit)base_addr >> 12) & 0x3FF;  // PTE index
+    u32bit dir_idx = ((u32bit)base_addr >> 22) & 0x3FF;  //PDE
+    u32bit tbl_idx = ((u32bit)base_addr >> 12) & 0x3FF;  //PTE
 
-    // Check if page table exists
+    //check if page table exists
     if (!(page_directory[dir_idx] & 1)) { 
-        // Allocate new page table if not present
         page_directory[dir_idx] = (u32bit)pmm_alloc_page() | 0b11; // Present + Writable
     }
 
-    // Get the page table base
-    u32bit* page_table = (u32bit*)(page_directory[dir_idx] & 0xFFFFF000);
+    //get the page table base
+    u32bit* page_table = (u32bit*)GET_BASE_ADDR(page_directory[dir_idx]);
 
-    // Set the PTE to point to the physical address
-    page_table[tbl_idx] = ((u32bit)addr & 0xFFFFF000) | flags;
+    //set the PTE to point to the phys addr
+    page_table[tbl_idx] = (u32bit)GET_BASE_ADDR(addr) | flags;
 }
 
-void unmap_addr(void* pt_root, u32bit addr) {
+void unmap_addr(void* pt_root, u32bit base_addr) {
+    u32bit* page_directory = (u32bit*)pt_root;
 
+    u32bit dir_idx = ((u32bit)base_addr >> 22) & 0x3FF;  //PDE
+    u32bit tbl_idx = ((u32bit)base_addr >> 12) & 0x3FF;  //PTE
+
+    //check if page table exists
+    if (!(page_directory[dir_idx] & 1)) {
+        panic("unmap_addr: address not found!");
+    }
+
+    u32bit* page_table = (u32bit*)GET_BASE_ADDR(page_directory[dir_idx]); //get the page table base
+    UNAMP_ADDR(page_table[tbl_idx]);
 }

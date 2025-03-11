@@ -20,7 +20,8 @@ u8bit test_bit(u32bit index) {
 void* pmm_alloc_page() {
     for (u32bit i = 0; i < total_pages; i++) {
         if (!test_bit(i)) { 
-            set_bit(i);   
+            set_bit(i);
+            memset((void*)((i * PAGE_SIZE)), 0, PAGE_SIZE);
             return (void*)((i * PAGE_SIZE)); 
         }
     }
