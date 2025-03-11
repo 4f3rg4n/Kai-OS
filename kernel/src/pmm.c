@@ -25,14 +25,14 @@ void* pmm_alloc_page() {
         }
     }
 
-    dbg_err("PMM Error: Free page not found.\n");
+    alert("PMM Error: Free page not found.\n");
     return PAGE_NOT_FOUND; 
 }
 
 void pmm_free_page(void* page) {
     u32bit index = GET_BITMAP_INDEX((u32bit)page);
     if (index >= total_pages) {
-        dbg_err("PMM Error: Free invalid page.\n");
+        alert("PMM Error: Free invalid page.\n");
         return;
     }
 

@@ -13,6 +13,7 @@
 #include "boot.h"
 #include "shell.h"
 #include "acpi.h"
+#include "kerrors.h"
 
 void kmain();
 

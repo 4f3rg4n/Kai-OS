@@ -30,13 +30,13 @@ void geti(int* var) {
     (*var) = atoi(buf);
 }
 
-int printf(char* format, void* arg) {
-    int size = strsize(format);
-    for(int i = 0; i < strsize(format) - 1; i++) {
-        if(format[i] == '%') {
-            format[i] = '\0';
-            puts(format);
-            switch (format[i + 1]) {
+int printf(char* fmt, void* arg) {
+    int size = strsize(fmt);
+    for(int i = 0; i < strsize(fmt) - 1; i++) {
+        if(fmt[i] == '%') {
+            fmt[i] = '\0';
+            puts(fmt);
+            switch (fmt[i + 1]) {
                 case 's':
                     size += puts(arg) - 2;
                     break;
@@ -54,10 +54,10 @@ int printf(char* format, void* arg) {
                     putch('%');
                     size--;
             }
-            format += i + 2;              
+            fmt += i + 2;              
         }
     }
-    puts(format);
+    puts(fmt);
 
     return size;    
 }

@@ -47,7 +47,7 @@ void timer_init() {
 
 void timer_set_frequency(u32bit frq) {
     if (frq == 0) {
-        dbg_alert("Error: Frequency must be greater than zero\n");
+        alert("Error: Frequency must be greater than zero\n");
         return;
     }
 

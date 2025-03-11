@@ -3,6 +3,7 @@
 
 #include "../../libc/include/types.h"
 #include "../../cpu/include/isr.h"
+#include "kerrors.h"
 
 #define PAGE_SIZE 4096
 #define PDE_NUM 1024

@@ -54,8 +54,8 @@ void page_fault_handler() {
     u32bit addr;
     asm volatile("mov %%cr2, %0" : "=r"(addr)); // get the faulting address from CR2
 
-    printf("Page fault at address: 0x%x\n",addr);
-    while (1) {} //hlt
+    printf("Address: 0x%x\n",addr);
+    panic("Page fault");
 }
 
 void map_addr(void* pt_root, u32bit base_addr, u32bit addr, u32bit flags) {

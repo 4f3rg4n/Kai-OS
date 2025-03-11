@@ -50,5 +50,3 @@ int puts_c(const char* str, char color) {
 int puts(const char* str){
     return puts_c(str, 0);
 }
-
-

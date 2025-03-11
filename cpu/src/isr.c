@@ -77,7 +77,6 @@ void isr_init() {
 
 /* Global Handling isr's */
 void isr_handler(u16bit entry) {
-    dbg_err("alert: \0");
-    dbg_err(isr_desc[entry]);
-    puts("\n\0");
+    puts("alert: \0");
+    alert(isr_desc[entry]);
 }

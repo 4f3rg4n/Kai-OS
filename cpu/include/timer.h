@@ -13,9 +13,6 @@
 
 #define PIT_MODE3_COMMAND 0x36 // square wave mode.
 
-extern u32bit ticks; //timer ticks counter
-extern u32bit frequency; //frequency of the timer
-
 /* clock data struct */
 typedef struct __attribute__((packed)) {
     u8bit seconds;
@@ -25,6 +22,12 @@ typedef struct __attribute__((packed)) {
     u32bit col;
     u8bit isActive;
 } clock_data;
+
+extern u32bit ticks; //timer ticks counter
+extern u32bit frequency; //frequency of the timer
+extern clock_data* clock; //clock format hh:mm:ss
+
+
 
 void timer_handler();
 void timer_init();
