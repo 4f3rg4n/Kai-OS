@@ -1,7 +1,20 @@
 #include "../include/kheap.h"
 
-void* curr_page = nullptr;
-u32bit page_ctr = 0;
+heap_bin* heap_bins[BINS];
+u32bit* heap_arena = HEAP_BASE;
+
+void init_heap() {
+    for(int idx = 1; idx < 8; idx++){
+        heap_bins[fast_bin] = (heap_bin*)create_heap_obj(sizeof(heap_bin*)); 
+        heap_bins[fast_bin]->max_size = idx
+    }
+}
+
+void* create_heap_obj(u32bit obj_size) {
+    void* addr = heap_arena;
+    heap_arena += obj_size;
+    return addr;
+}
 
 void* kalloc(u32bit size){
     void* addr = nullptr;
@@ -26,14 +39,8 @@ void* kfree(void* addr) {
         curr_page = ((void*)PAGE_ALIGN_DOWN((u32bit)addr) == (curr_page - sizeof(u32bit)) ? nullptr : curr_page);
         pmm_free_page((void*)PAGE_ALIGN_DOWN((u32bit)addr));
     }
-    else    
+    else {
         update_ctr(addr, get_ctr(addr) - 1);
+    }
 }
 
-void update_ctr(void* page, u32bit ctr) {
-    *(u32bit*)(PAGE_ALIGN_DOWN((u32bit)page)) = ctr;
-}
-
-u32bit get_ctr(void* page) {
-    return *(u32bit*)(PAGE_ALIGN_DOWN((u32bit)page));
-}

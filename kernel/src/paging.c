@@ -1,12 +1,13 @@
 #include "../include/paging.h"
 #include "../include/pmm.h"
 
-u32bit* page_directory = nullptr; 
+//u32bit* page_directory = nullptr; 
 
 void paging_init(u32bit* pt_root) {
     //page_directory = pmm_alloc_page();
 
     page_directory_load(pt_root);
+    
     enable_paging();
     idt_set_new_gate(14, (u32bit)page_fault_handler, KERNEL_CS, INTERRUPT_GATE);
 
@@ -39,7 +40,7 @@ void enable_paging() {
     u32bit cr0;
     asm volatile("mov %%cr0, %0" : "=r"(cr0)); 
     cr0 |= 0x80000000; // set the paging (PG) bit in CR0
-    asm volatile("mov %0, %%cr0" : : "r"(cr0));
+    asm volatile("mov %0, %%cr0" : : "r"(cr0));    
 }
 
 void page_fault_handler() {
@@ -60,7 +61,6 @@ void map_addr(void* pt_root, u32bit base_addr, u32bit addr, u32bit flags) {
     if (!(page_directory[dir_idx] & 1)) { 
         page_directory[dir_idx] = (u32bit)pmm_alloc_page() | 0b11; // Present + Writable
     }
-
     //get the page table base
     u32bit* page_table = (u32bit*)GET_BASE_ADDR(page_directory[dir_idx]);
 

@@ -12,7 +12,7 @@
 #define GET_BASE_ADDR(addr) (addr & 0xFFFFF000)
 #define UNAMP_ADDR(addr) (addr ^= addr)
 
-extern u32bit* page_directory; 
+//extern u32bit* page_directory; 
 
 void paging_init();
 void page_directory_load(u32bit* page_directory);

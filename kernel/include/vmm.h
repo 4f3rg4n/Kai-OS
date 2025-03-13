@@ -8,7 +8,7 @@
 #include "kheap.h"
 
 #define PAGE_ALIGN(value) (value + (PAGE_SIZE - (value % PAGE_SIZE)))
-#define KERNEL_LENGTH 0x400000
+#define KERNEL_LENGTH 0x100000
 
 //rings privilages
 #define KERNEL_RING 0
@@ -35,4 +35,5 @@ void set_flags(vmm_obj* vm_object, u8bit is_writeable, u8bit is_exec, u8bit is_u
 void* vmm_create(u32bit length, u32bit flags, void* arg, u8bit ring);
 void map_memory(vmm_obj* vmm);
 void map_kernel(vmm_obj* vmm);
+void vmm_disable_4mb_pages ( void );
 #endif

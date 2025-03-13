@@ -1,6 +1,6 @@
 #include "../include/kernel.h"
 
-void kmain() {    
+void kmain() {  
     cls(); //clean screen
     /*---------------*\
     | init os drivers |
@@ -14,6 +14,8 @@ void kmain() {
     vmm_init();
     paging_init(kernel_vmm->pt_root); 
     acpi_init();
+    //printf("%s", get_bpb()->OEM_name);
+    printf("%s", (char*) 0x7C05);  // Should also print the OEM string
     shell();
 }
  

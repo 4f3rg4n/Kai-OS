@@ -50,7 +50,7 @@ void pmm_init(u32bit memory_size) {
     cls_bitmap(sizeof(memory_bitmap));
 
     //kernel memory - 1MB
-    for (u32bit i = 0; i < 256; i++)
+    for (u32bit i = 0; i < 512; i++)
         set_bit(i);
 
     dbg_ok("PMM init successfully\n");
