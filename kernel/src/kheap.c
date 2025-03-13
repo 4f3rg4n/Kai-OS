@@ -1,7 +1,7 @@
 #include "../include/kheap.h"
 
 heap_bin* heap_bins[BINS];
-u32bit* heap_arena = HEAP_BASE;
+u32bit* heap_arena = KHEAP_BASE;
 
 void init_heap() {
     heap_bin* bin = nullptr;
@@ -32,10 +32,12 @@ void init_heap() {
 
     // Create unsorted bin
     heap_bins[unsorted_bin] = create_bin(ubsize, nullptr);
+    
+    dbg_ok("Heap init successfully\n");
 }
 
 void* create_heap_obj(u32bit obj_size) {
-    if(heap_arena + obj_size > HEAP_BASE + HEAP_SIZE)
+    if(heap_arena + obj_size > KHEAP_BASE + KHEAP_SIZE)
         panic("Heap out of memory!");
     void* addr = heap_arena;
     heap_arena += obj_size;

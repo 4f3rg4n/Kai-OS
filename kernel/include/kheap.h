@@ -13,8 +13,8 @@
 #define CHUNK_MMAP       0x2  //nmap bit (for large allocations)
 #define CHUNK_PREV_FREE  0x4  //previous chunk is free
 
-#define HEAP_BASE 0x1000000
-#define HEAP_SIZE 0x1000000
+#define KHEAP_BASE 0x1000000
+#define KHEAP_SIZE 0x1000000
 #define MIN_CHUNK_SIZE 0x10
 #define BINS 4
 
@@ -49,16 +49,17 @@ typedef struct __attribute__((packed)) {
 } heap_chunk;
 
 typedef struct __attribute__((packed)) {
-    heap_chunk* top_chunk;
-    heap_chunk* last_chunk;
-    heap_chunk* first_chunk;
-} heap;
-
-typedef struct __attribute__((packed)) {
     heap_chunk* chunks;
     u32bit max_size;
     struct heap_bin* next;
 } heap_bin;
+
+typedef struct __attribute__((packed)) {
+    heap_bin* bins[BINS];
+    u32bit* start;
+    u32bit* arena;
+    u32bit size;
+} heap_obj;
 
 extern heap_bin* heap_bins[BINS];
 extern u32bit* heap_arena;

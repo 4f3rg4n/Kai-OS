@@ -5,7 +5,7 @@
 
 #include "pmm.h"
 #include "paging.h"
-#include "kheap.h"
+//#include "kheap.h"
 
 #define PAGE_ALIGN(value) (value + (PAGE_SIZE - (value % PAGE_SIZE)))
 #define KERNEL_LENGTH 0x100000
