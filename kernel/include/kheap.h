@@ -62,7 +62,8 @@ extern u32bit* heap_arena;
 
 void init_heap();
 void* create_heap_obj(u32bit obj_size);
-void* create_bin(u32bit bin_size, heap_chunk* chunks);
+heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks);
+heap_bin* get_bin(u32bit size);
 void* kmalloc(u32bit size, u32bit flags);
 void* kfree(void* addr);
 #endif

@@ -50,7 +50,18 @@ heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks) {
     return bin;
 }
 
-void* kalloc(u32bit size){
+heap_bin* get_bin(u32bit size) {
+    if(size <= fbsize * fbins_num)
+        return heap_bins[fast_bin];
+    else if(size <= sbsize * sbins_num)
+        return heap_bins[small_bin];
+    else if(size <= lbsize * lbins_num)
+        return heap_bins[large_bin];
+    else
+        return heap_bins[unsorted_bin];
+}
+
+void* kmalloc(u32bit size, u32bit flags){
     void* addr = nullptr;
 
     if(size > PAGE_SIZE)
