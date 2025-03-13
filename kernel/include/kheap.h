@@ -8,14 +8,17 @@
 #define PAGE_SIZE 4096
 #define PAGE_ALIGN_DOWN(value) (value - (value % PAGE_SIZE))
 
+/* Flags */
 #define CHUNK_ALLOCATED  0x1  //allocated bit
 #define CHUNK_MMAP       0x2  //nmap bit (for large allocations)
 #define CHUNK_PREV_FREE  0x4  //previous chunk is free
 
 #define HEAP_BASE 0x1000000
 #define HEAP_SIZE 0x1000000
-
+#define MIN_CHUNK_SIZE 0x10
 #define BINS 4
+
+#define ALIGN_CHUNK_SIZE(size) (size + (MIN_CHUNK_SIZE - (size % MIN_CHUNK_SIZE)))
 
 enum bins {
     fast_bin,
@@ -64,6 +67,7 @@ void init_heap();
 void* create_heap_obj(u32bit obj_size);
 heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks);
 heap_bin* get_bin(u32bit size);
+heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size);
 void* kmalloc(u32bit size, u32bit flags);
 void* kfree(void* addr);
 #endif

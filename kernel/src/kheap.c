@@ -61,31 +61,34 @@ heap_bin* get_bin(u32bit size) {
         return heap_bins[unsorted_bin];
 }
 
-void* kmalloc(u32bit size, u32bit flags){
-    void* addr = nullptr;
-
-    if(size > PAGE_SIZE)
-        return nullptr;
-
-    if(curr_page == nullptr || size + page_ctr > PAGE_SIZE) {
-        page_ctr = 0;
-        curr_page = pmm_alloc_page() + sizeof(u32bit);
-        update_ctr(curr_page, 0);
+heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size) {
+    heap_chunk* chunk = bin->chunks;
+    while(chunk != nullptr) {
+        //check if the chunk isnt allocated yet and the size is enough
+        if(!(chunk->size_n_flags & CHUNK_ALLOCATED) && chunk->size_n_flags >= size) 
+            return chunk;
+        chunk = chunk->fd;
     }
+    return nullptr;
+}
 
-    update_ctr(curr_page, get_ctr(curr_page) + 1);
-    addr = page_ctr + size + curr_page;
-    page_ctr += size;
-    return addr;
+void* kmalloc(u32bit size, u32bit flags){
+    heap_bin* bin = get_bin(size);
+    heap_chunk* chunk = find_chunk_in_bin(bin, size);
+    if(chunk == nullptr) {
+        chunk = (heap_chunk*)create_heap_obj(ALIGN_CHUNK_SIZE(size) + sizeof(heap_chunk));
+        chunk->size_n_flags = size;
+        chunk->fd = nullptr;
+        chunk->bk = nullptr;
+        chunk->prev_size = 0;
+    }
+    chunk->size_n_flags |= CHUNK_ALLOCATED;
+    return (void*)chunk + sizeof(heap_chunk);
 }
 
 void* kfree(void* addr) {
-    if(get_ctr(addr) == 1) {
-        curr_page = ((void*)PAGE_ALIGN_DOWN((u32bit)addr) == (curr_page - sizeof(u32bit)) ? nullptr : curr_page);
-        pmm_free_page((void*)PAGE_ALIGN_DOWN((u32bit)addr));
-    }
-    else {
-        update_ctr(addr, get_ctr(addr) - 1);
-    }
+    heap_chunk* chunk = (heap_chunk*)(addr - sizeof(heap_chunk));
+    heap_bin* bin = get_bin(chunk->size_n_flags);
+    chunk->size_n_flags &= ~CHUNK_ALLOCATED;
+    return nullptr;
 }
-
