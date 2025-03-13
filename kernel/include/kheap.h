@@ -57,7 +57,7 @@ typedef struct __attribute__((packed)) {
 typedef struct __attribute__((packed)) {
     heap_chunk* chunks;
     u32bit max_size;
-    heap_bin* next;
+    struct heap_bin* next;
 } heap_bin;
 
 extern heap_bin* heap_bins[BINS];
@@ -66,8 +66,9 @@ extern u32bit* heap_arena;
 void init_heap();
 void* create_heap_obj(u32bit obj_size);
 heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks);
-heap_bin* get_bin(u32bit size);
+heap_bin* find_bin_by_size(u32bit size);
 heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size);
+void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin);
 void* kmalloc(u32bit size, u32bit flags);
 void* kfree(void* addr);
 #endif

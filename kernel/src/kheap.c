@@ -50,15 +50,24 @@ heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks) {
     return bin;
 }
 
-heap_bin* get_bin(u32bit size) {
+// finish it!! should return the rigth bin and not the pointer to the first bin... 
+heap_bin* find_bin_by_size(u32bit size) {
+    heap_bin* bin = nullptr;
+    size = ALIGN_CHUNK_SIZE(size);
+
     if(size <= fbsize * fbins_num)
-        return heap_bins[fast_bin];
+        bin = heap_bins[fast_bin];
     else if(size <= sbsize * sbins_num)
-        return heap_bins[small_bin];
+        bin = heap_bins[small_bin];
     else if(size <= lbsize * lbins_num)
-        return heap_bins[large_bin];
+        bin = heap_bins[large_bin];
     else
         return heap_bins[unsorted_bin];
+
+    while(bin->max_size < size || bin != nullptr)
+        bin = bin->next;
+
+    return bin;
 }
 
 heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size) {
@@ -72,23 +81,34 @@ heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size) {
     return nullptr;
 }
 
+void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin) {
+    if(bin->chunks) {
+        chunk->fd = bin->chunks;
+        chunk->bk = bin->chunks->bk;
+        bin->chunks->bk = chunk;
+    }
+    bin->chunks = chunk;
+}
+
 void* kmalloc(u32bit size, u32bit flags){
-    heap_bin* bin = get_bin(size);
+    size = ALIGN_CHUNK_SIZE(size);
+    heap_bin* bin = find_bin_by_size(size);
     heap_chunk* chunk = find_chunk_in_bin(bin, size);
+
     if(chunk == nullptr) {
-        chunk = (heap_chunk*)create_heap_obj(ALIGN_CHUNK_SIZE(size) + sizeof(heap_chunk));
-        chunk->size_n_flags = size;
+        chunk = (heap_chunk*)create_heap_obj(size + sizeof(heap_chunk));
         chunk->fd = nullptr;
         chunk->bk = nullptr;
         chunk->prev_size = 0;
     }
-    chunk->size_n_flags |= CHUNK_ALLOCATED;
-    return (void*)chunk + sizeof(heap_chunk);
+
+    chunk->size_n_flags = size | CHUNK_ALLOCATED;
+    return ((void*)chunk + sizeof(heap_chunk));
 }
 
 void* kfree(void* addr) {
     heap_chunk* chunk = (heap_chunk*)(addr - sizeof(heap_chunk));
-    heap_bin* bin = get_bin(chunk->size_n_flags);
     chunk->size_n_flags &= ~CHUNK_ALLOCATED;
+    insert_chunk_into_bin(chunk, find_bin_by_size(chunk->size_n_flags));
     return nullptr;
 }

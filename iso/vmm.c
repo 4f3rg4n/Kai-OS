@@ -23,7 +23,7 @@ void set_flags(vmm_obj* vm_object, u8bit is_writeable, u8bit is_exec, u8bit is_u
 
 void* vmm_create(u32bit length, u32bit flags, void* arg, u8bit ring) {
     length = PAGE_ALIGN(length);
-    vmm_obj* new_obj = (vmm_obj*)kalloc(sizeof(vmm_obj));
+    vmm_obj* new_obj = (vmm_obj*)kmalloc(sizeof(vmm_obj), 0);
     new_obj->flags = flags;
     new_obj->length = length;
     vmms->pt_root = pmm_alloc_page();
