@@ -3,6 +3,7 @@
 
 #include "../../libc/include/stdlib.h"
 #include "pmm.h"
+#include "kerrors.h"
 
 #define PAGE_SIZE 4096
 #define PAGE_ALIGN_DOWN(value) (value - (value % PAGE_SIZE))
@@ -24,10 +25,17 @@ enum bins {
 };
 
 enum min_bin_size{
-    fast_bin_bsize = 16,
-    small_bin_bsize = 64,
-    large_bin_bsize = 512,
-    unsorted_bin_bsize = 1024
+    fbsize = 16,
+    sbsize = 64,
+    lbsize = 512,
+    ubsize = 1024
+};
+
+enum num_of_bins{
+    fbins_num = 7,
+    sbins_num = 4,
+    lbins_num = 7,
+    ubins_num = 1
 };
 
 typedef struct __attribute__((packed)) {
@@ -46,12 +54,15 @@ typedef struct __attribute__((packed)) {
 typedef struct __attribute__((packed)) {
     heap_chunk* chunks;
     u32bit max_size;
+    heap_bin* next;
 } heap_bin;
 
 extern heap_bin* heap_bins[BINS];
 extern u32bit* heap_arena;
 
+void init_heap();
+void* create_heap_obj(u32bit obj_size);
+void* create_bin(u32bit bin_size, heap_chunk* chunks);
 void* kmalloc(u32bit size, u32bit flags);
 void* kfree(void* addr);
-void* create_heap_obj(u32bit obj_size);
 #endif
