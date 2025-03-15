@@ -85,6 +85,7 @@ heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size) {
 
 void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin) {
     if(bin->chunks) {
+        bin->chunks->prev_size = chunk->size_n_flags;
         chunk->fd = bin->chunks;
         chunk->bk = bin->chunks->bk;
         bin->chunks->bk = chunk;
@@ -99,10 +100,11 @@ void* kmalloc(u32bit size, u32bit flags){
 
     if(chunk == nullptr) {
         chunk = (heap_chunk*)create_heap_obj(size + sizeof(heap_chunk));
-        chunk->fd = nullptr;
-        chunk->bk = nullptr;
-        chunk->prev_size = 0;
     }
+
+    chunk->fd = nullptr;
+    chunk->bk = nullptr;
+    chunk->prev_size = 0;
 
     chunk->size_n_flags = size | CHUNK_ALLOCATED;
     return ((void*)chunk + sizeof(heap_chunk));
