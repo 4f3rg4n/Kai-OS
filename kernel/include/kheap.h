@@ -31,7 +31,7 @@ enum min_bin_size{
     fbsize = 16,
     sbsize = 64,
     lbsize = 512,
-    ubsize = 1024
+    ubsize = 4096
 };
 
 enum num_of_bins{
