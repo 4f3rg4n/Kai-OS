@@ -17,7 +17,6 @@ void kmain() {
     //paging_init(kernel_vmm->pt_root); 
     acpi_init();
 
-
     /*-------------*\
     |  start shell  |
     \*-------------*/

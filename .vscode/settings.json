@@ -92,6 +92,7 @@
     "kheap.h": "c",
     "acpi.h": "c",
     "shell.h": "c",
-    "kerrors.h": "c"
+    "kerrors.h": "c",
+    "gdt.h": "c"
   }
 }
