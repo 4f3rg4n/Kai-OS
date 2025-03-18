@@ -1,8 +1,8 @@
 #include "../include/kernel.h"
 
 void kmain() {  
-    
     cls(); //clean screen
+
     /*---------------*\
     | init os drivers |
     \*---------------*/
@@ -14,8 +14,13 @@ void kmain() {
     pmm_init(MEMORY_LIMIT);
     init_heap();
     vmm_init();
-    paging_init(kernel_vmm->pt_root); 
+    //paging_init(kernel_vmm->pt_root); 
     acpi_init();
+
+
+    /*-------------*\
+    |  start shell  |
+    \*-------------*/
     shell();
 }
  
