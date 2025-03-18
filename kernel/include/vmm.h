@@ -3,10 +3,15 @@
 #ifndef VMM_H
 #define VMM_H
 
+#include "../../libc/include/types.h"
+#include "../../cpu/include/isr.h"
+#include "kerrors.h"
+
+
 #include "pmm.h"
 #include "paging.h"
-//#include "kheap.h"
-
+#include "kheap.h"
+#include "../../debug/include/debug.h"
 #define PAGE_ALIGN(value) (value + (PAGE_SIZE - (value % PAGE_SIZE)))
 #define KERNEL_LENGTH 0x100000
 
@@ -31,9 +36,9 @@ extern vmm_obj* vmms;
 extern vmm_obj* kernel_vmm;
 
 void vmm_init();
+
 void set_flags(vmm_obj* vm_object, u8bit is_writeable, u8bit is_exec, u8bit is_user);
 void* vmm_create(u32bit length, u32bit flags, void* arg, u8bit ring);
 void map_memory(vmm_obj* vmm);
 void map_kernel(vmm_obj* vmm);
-void vmm_disable_4mb_pages ( void );
 #endif

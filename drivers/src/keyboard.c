@@ -181,6 +181,7 @@ int update_metadata(u8bit code) {
 
 
 void keyboard_handler() {
+
     u8bit code = in8(KEYBOARD_DATA_PORT);
 
     //back key

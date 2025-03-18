@@ -38,6 +38,5 @@ disk_read:
         popa
         ret
 
-
 disk_error_msg: db "ERROR: Disk read faild", 0
 read_error_msg: db "ERROR: Cannot finish disk read", 0

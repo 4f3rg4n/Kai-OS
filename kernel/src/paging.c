@@ -10,7 +10,7 @@ void paging_init(u32bit* pt_root) {
     
     enable_paging();
     idt_set_new_gate(14, (u32bit)page_fault_handler, KERNEL_CS, INTERRUPT_GATE);
-
+    
     // Log success
     dbg_ok("Paging init successfully\n");
 }

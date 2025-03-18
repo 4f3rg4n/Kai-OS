@@ -8,7 +8,6 @@ vmm_obj* kernel_vmm = nullptr;
 void vmm_init() {
     kernel_vmm = vmm_create(KERNEL_LENGTH, VM_WRITEABLE, nullptr, KERNEL_RING);
     map_kernel(kernel_vmm);  
-    //vmm_disable_4mb_pages();
     dbg_ok("VMM init successfully\n");
 }
 
@@ -46,12 +45,4 @@ void map_memory(vmm_obj* vmm) {
 void map_kernel(vmm_obj* vmm) {
     for (u32bit addr = 0; addr < vmm->length; addr += PAGE_SIZE)
         map_addr(vmm->pt_root, addr, addr, vmm->flags);  // Present + Writable
-}
-
-void vmm_disable_4mb_pages ( void )
-{
-    u32bit cr4;
-    __asm volatile ( "mov %%cr4, %0" : "=r" ( cr4 ) );
-    cr4 &= ~0x00000010;
-    __asm volatile ( "mov %0, %%cr4" : : "r" ( cr4 ) );
 }

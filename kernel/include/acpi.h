@@ -1,5 +1,6 @@
+#ifndef ACPI_H
+#define ACPI_H
 #include "../../libc/include/types.h"
-
 
 #define RSDP_SEARCH_START 0x000E0000
 #define RSDP_SEARCH_END   0x000FFFFF
@@ -33,3 +34,5 @@ int acpi_checksum(void* base, u32bit length);
 RSDPDescriptor* find_rsdp();
 void parse_rsdt(RSDT* rsdt);
 void acpi_init();
+
+#endif

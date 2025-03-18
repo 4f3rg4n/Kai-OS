@@ -12,6 +12,7 @@ switch_to_pm:
 
 [bits 32]
 init_pm:
+
     ;set data seg registers to the data seg addr
     mov ax, DATA_SEG_32_BIT
     mov ds , ax
@@ -21,7 +22,7 @@ init_pm:
     mov gs , ax
 
     ;init stack at 0x9000
-    mov ebp, 0x9000
+    mov ebp, 0x1000
     mov esp, ebp
 
     ;start pm

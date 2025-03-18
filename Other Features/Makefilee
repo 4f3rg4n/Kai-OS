@@ -37,13 +37,13 @@ kai-os-debug.bin: kai-os.bin
 kai-os-gdb.bin: kai-os.bin
 	qemu-system-i386 -S -s -hda kai-os.bin
 
-# Kernel binary
+# Kernel binary using linker script
 kernel.bin: $(BOOT_TYPE)/kernel_entry.o ${OBJC} ${OBJS}
-	${LD} -o $@ -Ttext 0x8000 $^ --oformat binary
+	${CC} -T linker.ld -o $@ -ffreestanding -nostdlib $(BOOT_TYPE)/kernel_entry.o $^ 
 
 # Kernel ELF for debugging
 kernel.elf: $(BOOT_TYPE)/kernel_entry.o ${OBJC} ${OBJS}
-	${LD} -o $@ -Ttext 0x8000 $^
+	${CC} -T linker.ld -o $@ -ffreestanding -nostdlib $(BOOT_TYPE)/kernel_entry.o $^ 
 
 # Build boot sector (Multiboot)
 Multiboot/bootsect.o: Multiboot/bootsect.asm
@@ -63,6 +63,7 @@ boot/kernel_entry.o: boot/kernel_entry.asm
 # Run in QEMU
 run: kai-os.bin
 	qemu-system-i386 -fda kai-os.bin
+	make clean
 
 # Debugging with QEMU and GDB
 debug: kai-os.bin kernel.elf

@@ -97,10 +97,12 @@ void irq_del_handler(u8bit offset) {
 }
 
 void irq_handler(u16bit entry) {
+
     void (*handler)(void);
 
     // get irq handler
     handler = irq_handlers[entry - 0x20];
+    
     if (handler) { // check if the handler addr isnt empty
         handler(); // run handler
     }

@@ -1,5 +1,6 @@
 [BITS 16]
 [ORG 0x7C00]
+
 ;Note: BPB Struct can be found inside the kernel fs code file.
 BIOS_Parametr_Block:
     jmp short boot_start
@@ -44,21 +45,20 @@ boot_start:
 [BITS 16]
 load_kernel:
     mov bx, KERNEL_LOCARION  ;kernel entry
-    mov dh, 31 ;num of sectors by kernel size
+    mov dh, 64 ;num of sectors by kernel size
     mov dl, [BOOT_DRIVE]
     call disk_read
     ret 
 
 [BITS 32]
 protected_mode:
-    push PM_MSG
+    mov ebx, PM_MSG
     call print_32bit
-    add sp, 2
-
+    ;jmp $
     call KERNEL_LOCARION ; Give control to the kernel
     jmp $ ; Stay here when the kernel returns control to us (if ever)
 
-KERNEL_LOCARION equ 0x1000
+KERNEL_LOCARION equ 0x8000
 
 open_message: db 'Start booting Kai-OS...', 0
 PM_MSG: db 'Entered into protected mode', 0
@@ -66,4 +66,3 @@ BOOT_DRIVE: db 0x80
 
 TIMES 510-($-$$) db 0
 dw 0xaa55
-

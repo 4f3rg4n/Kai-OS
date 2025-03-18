@@ -2,6 +2,7 @@
 #define KHEAP_H
 
 #include "../../libc/include/stdlib.h"
+#include "../../libc/include/memory.h"
 #include "pmm.h"
 #include "kerrors.h"
 
@@ -71,5 +72,7 @@ heap_bin* find_bin_by_size(u32bit size);
 heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size);
 void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin);
 void* kmalloc(u32bit size, u32bit flags);
+void* kcalloc(u32bit size, u32bit flags);
+void* realloc(void* ptr, u32bit size);
 void* kfree(void* addr);
 #endif

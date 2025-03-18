@@ -41,6 +41,7 @@ void* create_heap_obj(u32bit obj_size) {
         panic("Heap out of memory!");
     void* addr = heap_arena;
     heap_arena += obj_size;
+
     return addr;
 }
 
@@ -49,10 +50,10 @@ heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks) {
     bin->max_size = bin_size;
     bin->chunks = chunks;   
     bin->next = nullptr;
+
     return bin;
 }
 
-// finish it!! should return the rigth bin and not the pointer to the first bin... 
 heap_bin* find_bin_by_size(u32bit size) {
     heap_bin* bin = nullptr;
     size = ALIGN_CHUNK_SIZE(size);
@@ -80,6 +81,7 @@ heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size) {
             return chunk;
         chunk = chunk->fd;
     }
+
     return nullptr;
 }
 
@@ -90,7 +92,16 @@ void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin) {
         chunk->bk = bin->chunks->bk;
         bin->chunks->bk = chunk;
     }
+
     bin->chunks = chunk;
+}
+
+void* kfree(void* addr) {
+    heap_chunk* chunk = (heap_chunk*)(addr - sizeof(heap_chunk));
+    chunk->size_n_flags &= ~CHUNK_ALLOCATED;
+    insert_chunk_into_bin(chunk, find_bin_by_size(chunk->size_n_flags));
+
+    return nullptr;
 }
 
 void* kmalloc(u32bit size, u32bit flags){
@@ -110,9 +121,24 @@ void* kmalloc(u32bit size, u32bit flags){
     return ((void*)chunk + sizeof(heap_chunk));
 }
 
-void* kfree(void* addr) {
-    heap_chunk* chunk = (heap_chunk*)(addr - sizeof(heap_chunk));
-    chunk->size_n_flags &= ~CHUNK_ALLOCATED;
-    insert_chunk_into_bin(chunk, find_bin_by_size(chunk->size_n_flags));
-    return nullptr;
+void* kcalloc(u32bit size, u32bit flags) {
+    void* ptr = kmalloc(size, 0);
+    if(!ptr) return nullptr;
+    memset(ptr, 0, size); //erase all the chunk bytes
+
+    return ptr;
 }
+
+void* realloc(void* ptr, u32bit size) {
+    if(!ptr) return kmalloc(size, 0);
+    if(!size) { kfree(ptr); return nullptr;}
+
+    void* new_ptr = kmalloc(size, 0);
+    if(!new_ptr) return nullptr;
+    memcpy(new_ptr, ptr, size);
+    kfree(ptr);
+    kmalloc(size, 0);
+
+    return new_ptr;
+}
+
