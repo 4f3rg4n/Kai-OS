@@ -16,13 +16,13 @@ void shell(){
             int tmp;
             puts("hours: ");
             geti(&tmp);
-            clock->hours = tmp;
+            clock.hours = tmp;
             puts("minutes: ");
             geti(&tmp);
-            clock->minutes = tmp;
+            clock.minutes = tmp;
             puts("seconds: ");
             geti(&tmp);
-            clock->seconds = tmp;
+            clock.seconds = tmp;
             goto _start;
         }
 

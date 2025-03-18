@@ -25,7 +25,7 @@ typedef struct __attribute__((packed)) {
 
 extern u32bit ticks; //timer ticks counter
 extern u32bit frequency; //frequency of the timer
-extern clock_data* clock; //clock format hh:mm:ss
+extern clock_data clock; //clock format hh:mm:ss
 
 
 
