@@ -17,6 +17,7 @@
 #define KHEAP_BASE 0x1000000
 #define KHEAP_SIZE 0x1000000
 #define MIN_CHUNK_SIZE 0x10
+#define MAX_CHUNK_SIZE 0xfff8
 #define BINS 4
 
 #define ALIGN_CHUNK_SIZE(size) (size + (MIN_CHUNK_SIZE - (size % MIN_CHUNK_SIZE)))
@@ -42,12 +43,12 @@ enum num_of_bins{
     ubins_num = 1
 };
 
-typedef struct __attribute__((packed)) {
+typedef struct heap_chunk{
     u32bit prev_size;
     u32bit size_n_flags;
     struct heap_chunk* fd;
     struct heap_chunk* bk;
-} heap_chunk;
+} __attribute__((packed)) heap_chunk;
 
 typedef struct __attribute__((packed)) {
     heap_chunk* chunks;
@@ -65,11 +66,29 @@ typedef struct __attribute__((packed)) {
 extern heap_bin* heap_bins[BINS];
 extern u32bit* heap_arena;
 
+#define UNLINK(ptr) \
+    if(ptr->fd->bk != ptr || ptr->bk->fd != ptr) \
+        abort("free UNLINK", "Corrupted double-linked list"); \
+    ptr->fd->bk = ptr->bk; \
+    ptr->bk->fd = ptr->fd;
+
+#define PARTIAL_UNLINK(ptr, unsorted_bin_head) \
+    if(ptr->fd->bk != ptr || ptr->bk->fd != ptr) \
+        abort("free PARTIAL_UNLINK", "Corrupted double-linked list"); \
+    unsorted_bin_head->bk = ptr->bk; \
+    ptr->bk->fd = unsorted_bin_head; 
+
+#define FAST_LINKING(ptr, bin) \
+    bin->chunks \
+    ptr->fd->bk = ptr; \
+    ptr->bk->fd = ptr;
+
 void init_heap();
 void* create_heap_obj(u32bit obj_size);
 heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks);
-heap_bin* find_bin_by_size(u32bit size);
-heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size);
+heap_bin* search_bin_by_size(u32bit size);
+heap_chunk* search_free_chunk(heap_bin* bin, u32bit size);
+heap_chunk* unsorted_bin_search(u32bit size);
 void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin);
 void* kmalloc(u32bit size, u32bit flags);
 void* kcalloc(u32bit size, u32bit flags);

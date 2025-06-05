@@ -54,7 +54,7 @@ heap_bin* create_bin(u32bit bin_size, heap_chunk* chunks) {
     return bin;
 }
 
-heap_bin* find_bin_by_size(u32bit size) {
+heap_bin* search_bin_by_size(u32bit size) {
     heap_bin* bin = nullptr;
     size = ALIGN_CHUNK_SIZE(size);
 
@@ -73,14 +73,42 @@ heap_bin* find_bin_by_size(u32bit size) {
     return bin;
 }
 
-heap_chunk* find_chunk_in_bin(heap_bin* bin, u32bit size) {
+heap_chunk* search_free_chunk(heap_bin* bin, u32bit size) {
+    //bin is empty
+    if (bin->chunks == nullptr) return nullptr;
+
+    //is unsorted?
+    if(heap_bins[unsorted_bin] == bin)
+        return unsorted_bin_search(size);
+
     heap_chunk* chunk = bin->chunks;
-    while(chunk != nullptr) {
-        //check if the chunk isnt allocated yet and the size is enough
-        if(!(chunk->size_n_flags & CHUNK_ALLOCATED) && chunk->size_n_flags >= size) 
+    do {
+        //size check
+        if(chunk->size_n_flags & MAX_CHUNK_SIZE == size) {
+            UNLINK(chunk);
             return chunk;
+        }
         chunk = chunk->fd;
-    }
+    } while(chunk != bin->chunks);
+
+    return nullptr;
+}
+
+heap_chunk* unsorted_bin_search(u32bit size) {
+    heap_bin* bin = heap_bins[unsorted_bin];
+    heap_chunk* chunk = bin->chunks->bk;
+
+    do {
+        //unlink chunk from unsorted bin
+        PARTIAL_UNLINK(chunk, bin->chunks);
+
+        //size check
+        if((chunk->size_n_flags & MAX_CHUNK_SIZE) == size)
+            return chunk;
+
+        insert_chunk_into_bin(chunk, search_bin_by_size(chunk->size_n_flags));
+        chunk = chunk->bk;
+    } while(chunk != bin->chunks->bk);
 
     return nullptr;
 }
@@ -99,15 +127,15 @@ void insert_chunk_into_bin(heap_chunk* chunk, heap_bin* bin) {
 void* kfree(void* addr) {
     heap_chunk* chunk = (heap_chunk*)(addr - sizeof(heap_chunk));
     chunk->size_n_flags &= ~CHUNK_ALLOCATED;
-    insert_chunk_into_bin(chunk, find_bin_by_size(chunk->size_n_flags));
+    insert_chunk_into_bin(chunk, search_bin_by_size(chunk->size_n_flags));
 
     return nullptr;
 }
 
 void* kmalloc(u32bit size, u32bit flags){
     size = ALIGN_CHUNK_SIZE(size);
-    heap_bin* bin = find_bin_by_size(size);
-    heap_chunk* chunk = find_chunk_in_bin(bin, size);
+    heap_bin* bin = search_bin_by_size(size);
+    heap_chunk* chunk = search_free_chunk(bin, size);
 
     if(chunk == nullptr) {
         chunk = (heap_chunk*)create_heap_obj(size + sizeof(heap_chunk));

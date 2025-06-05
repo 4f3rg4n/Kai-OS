@@ -26,7 +26,7 @@ debug: clean kai-os-debug.bin clean
 gdb: clean kai-os-gdb.bin clean
 
 # Bootable image targets
-kai-os.bin: $(BOOT_TYPE)/bootsect.bin kernel.bin
+kai-os.bin: boot/bootsect.bin kernel.bin
 	cat $^ > kai-os.bin
 	cat $^ > iso/kai-os.bin
 	genisoimage -o kai-os.iso -b kai-os.bin -no-emul-boot -boot-load-size 4 -boot-info-table iso/
@@ -38,11 +38,11 @@ kai-os-gdb.bin: kai-os.bin
 	qemu-system-i386 -S -s -hda kai-os.bin
 
 # Kernel binary
-kernel.bin: $(BOOT_TYPE)/kernel_entry.o ${OBJC} ${OBJS}
+kernel.bin: boot/kernel_entry.o ${OBJC} ${OBJS}
 	${LD} -o $@ -Ttext 0x8000 $^ --oformat binary
 
 # Kernel ELF for debugging
-kernel.elf: $(BOOT_TYPE)/kernel_entry.o ${OBJC} ${OBJS}
+kernel.elf: boot/kernel_entry.o ${OBJC} ${OBJS}
 	${LD} -o $@ -Ttext 0x8000 $^
 
 # Build boot sector (Multiboot)

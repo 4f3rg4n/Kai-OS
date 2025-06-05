@@ -3,6 +3,7 @@
 #include "../../libc/include/stdlib.h"
 
 void panic(char* err);
+void abort(char* func, char* err);
 void alert(char* msg);
 
 #endif
