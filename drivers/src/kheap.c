@@ -89,7 +89,7 @@ heap_chunk* search_free_chunk(heap_bin* bin, u32bit size) {
             return chunk;
         }
         chunk = chunk->fd;
-    } while(chunk != bin->chunks);
+    } while(chunk && chunk != bin->chunks);
 
     return nullptr;
 }
@@ -149,7 +149,7 @@ void* kmalloc(u32bit size, u32bit flags){
     return ((void*)chunk + sizeof(heap_chunk));
 }
 
-void* kcalloc(u32bit size, u32bit flags) {
+void* kcalloc(u32bit size) {
     void* ptr = kmalloc(size, 0);
     if(!ptr) return nullptr;
     memset(ptr, 0, size); //erase all the chunk bytes

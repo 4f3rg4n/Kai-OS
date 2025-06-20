@@ -21,6 +21,14 @@ void kmain() {
     /*-------------*\
     |  start shell  |
     \*-------------*/
-    shell();
+    char* str = (char*)kcalloc(0x30);
+
+    strcpy(str, "Hello, world!");
+    kfree(str);
+    str = (char*)kcalloc(0x30);
+    strcpy(str, "Hello, world!");
+    puts("str: ");
+    puts(str);
+    //shell();
 }
  
