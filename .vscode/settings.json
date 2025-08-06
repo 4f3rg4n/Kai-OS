@@ -93,6 +93,9 @@
     "acpi.h": "c",
     "shell.h": "c",
     "kerrors.h": "c",
-    "gdt.h": "c"
+    "gdt.h": "c",
+    "cstdlib": "c",
+    "memory": "c",
+    "new": "c"
   }
 }

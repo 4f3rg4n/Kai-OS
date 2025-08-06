@@ -16,7 +16,7 @@ void kmain() {
     init_heap();
     //vmm_init();
     //paging_init(kernel_vmm->pt_root); 
-    acpi_init();
+    //acpi_init();
 
     /*-------------*\
     |  start shell  |
@@ -25,8 +25,8 @@ void kmain() {
 
     strcpy(str, "Hello, world!");
     kfree(str);
-    str = (char*)kcalloc(0x30);
-    strcpy(str, "Hello, world!");
+    str = (char*)kmalloc(0x30,0);
+    //strcpy(str, "Hello, world!");
     puts("str: ");
     puts(str);
     //shell();
